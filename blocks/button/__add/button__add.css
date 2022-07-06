@@ -1,0 +1,51 @@
+.button__add {
+    width: 150px;
+    height: 50px;
+    border: 2px;
+    border-style: solid;
+    border-color: #FFFFFF;
+    cursor: pointer;
+    background-color: #000000;
+    position: absolute;
+    right: 0px;
+    background-image: url(../../../images/Vector5.svg);
+    object-fit: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.button__add:hover {
+    opacity: 60%;
+    transition: .5s ease;
+}
+
+@media screen and (max-width: 320px) {
+    .button__add {
+        width: 282px;
+        height: 50px;
+        position: relative;
+        padding: 0;
+        margin-top: 36px;
+    }
+}
+
+@media screen and (min-width: 321px) and (max-width: 600px) {
+    .button__add {
+        width: 282px;
+        height: 50px;
+        position: relative;
+        padding: 0;
+        margin-top: 36px;
+    }
+}
+
+
+@media screen and (min-width: 601px) and (max-width: 900px) {
+    .button__add {
+        width: 282px;
+        height: 50px;
+        position: relative;
+        padding: 0;
+        margin-top: 36px;
+    }
+}

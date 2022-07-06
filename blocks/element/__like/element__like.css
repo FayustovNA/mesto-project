@@ -1,0 +1,18 @@
+.element__like {
+    cursor: pointer;
+    position: absolute;
+    bottom: 30px;
+    right: 20px;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.element__like:hover {
+    opacity: 60%;
+    transition: .5s ease;
+}
+
+.element__like:active {
+    background: url(../../../images/Union.png);
+    z-index: 3;
+}
