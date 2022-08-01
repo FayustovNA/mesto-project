@@ -1,0 +1,31 @@
+.popup__info {
+  display: flex;
+  flex-direction: column;
+  width: 358px;
+  margin: 0 36px 0 36px;
+  padding: 0;
+  border: 0;
+  font-family: 'Inter', 'Arial', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000000;
+}
+
+@media screen and (max-width: 320px) {
+  .popup__info {
+    width: 238px;
+    padding: 0;
+    margin: 0 22px 0 22px;
+  }
+}
+
+
+@media screen and (min-width: 321px) and (max-width: 600px) {
+  .popup__info {
+    width: calc(100% - 22px*2);
+    padding: 0;
+    margin: 0 22px 0 22px;
+  }
+}
