@@ -1,9 +1,9 @@
 import './index.css';
 import { popUp, buttonEdit, buttonAdd, popUpEl, buttonClose, allOverlay, formCard, formElements, mask, title } from './components/data.js';
 import { openPopUp, closePopUp } from './components/modal.js';
-import { addStartCards, addElement } from './components/card';
-import { editCard } from './components/utils';
-import { enableValidation } from './components/validate';
+import { addStartCards, addElement } from './components/card.js';
+import { editCard } from './components/utils.js';
+import { enableValidation } from './components/validate.js';
 
 
 addStartCards(); //Рендер карточек
