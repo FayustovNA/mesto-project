@@ -34,7 +34,7 @@ function closePopUp(button) {
 
 
 //Функция создать карточку
-function createCard (maskValue, titleValue) {
+function createCard(maskValue, titleValue) {
     const elementTemplate = document.querySelector('#element-template').content;
     const elementNew = elementTemplate.querySelector('.element').cloneNode(true);
     const maskImg = elementNew.querySelector('.element__mask');
@@ -79,10 +79,10 @@ function editCard(evt) {
 //Закрытие popUp
 buttonClose.forEach((button) => {
     const closePopUpEv = button.closest('.popup', '.popup-el');
-    button.addEventListener('click', function() {
+    button.addEventListener('click', function () {
         closePopUp(closePopUpEv);
     })
-    })
+})
 
 
 //Рендер карточек
@@ -137,5 +137,4 @@ formCard.addEventListener('submit', function (evt) {
 //Редактирование профиля
 buttonEdit.addEventListener('click', function () { openPopUp(popUp) });
 formElement.addEventListener('submit', editCard);
-
 

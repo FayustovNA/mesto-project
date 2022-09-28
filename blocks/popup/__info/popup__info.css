@@ -1,4 +1,4 @@
-.popup__info {
+#popup__info {
   display: flex;
   flex-direction: column;
   width: 358px;
@@ -14,7 +14,7 @@
 }
 
 @media screen and (max-width: 320px) {
-  .popup__info {
+  #popup__info {
     width: 238px;
     padding: 0;
     margin: 0 22px 0 22px;
@@ -23,7 +23,7 @@
 
 
 @media screen and (min-width: 321px) and (max-width: 600px) {
-  .popup__info {
+  #popup__info {
     width: calc(100% - 22px*2);
     padding: 0;
     margin: 0 22px 0 22px;

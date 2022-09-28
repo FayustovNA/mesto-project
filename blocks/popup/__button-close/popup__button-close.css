@@ -9,7 +9,7 @@
   border: none;
   z-index: 2;
   left: 438px;
-  bottom: 338px;
+  bottom: calc(100% + 8px);
 }
 
 #browse .popup__button-close {
@@ -34,7 +34,7 @@
     width: 20px;
     height: 20px;
     left: 262px;
-    bottom: 338px;
+    bottom: calc(100% + 10px);
   }
 
   #browse .popup__button-close {
@@ -52,7 +52,7 @@
     width: 20px;
     height: 20px;
     left: calc(100% - 19px);
-    bottom: 338px;
+    bottom: calc(100% + 10px);
   }
 
 }
@@ -63,7 +63,7 @@
     width: 20px;
     height: 20px;
     left: calc(100% - 19px);
-    bottom: 311px;
+    bottom: calc(100% + 10px);
   }
 
 }
