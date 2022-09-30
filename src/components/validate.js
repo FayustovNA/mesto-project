@@ -55,6 +55,8 @@ const setEventListeners = (formElement) => {
     });
 };
 
+
+
 export const enableValidation = () => {
     const formList = Array.from(document.querySelectorAll('.form'));
     formList.forEach((formElement) => {
@@ -64,3 +66,15 @@ export const enableValidation = () => {
         setEventListeners(formElement);
     });
 };
+
+// Функция для удаления ошибок с форм при закрытии popup
+export function resetError(formElement, obj) {
+    const inputList = Array.from(
+        formElement.querySelectorAll(obj['inputSelector'])
+    )
+    inputList.forEach((inputElement) =>
+        hideInputError(formElement, inputElement, obj)
+    )
+    const buttonElement = formElement.querySelector(obj['submitButtonSelector'])
+    toggleButtonState(inputList, buttonElement, obj)
+}

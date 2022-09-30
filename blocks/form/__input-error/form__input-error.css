@@ -8,4 +8,5 @@
     margin: 0 auto 0 auto;
     text-align: start;
     justify-content: center;
+    min-height: 30px;
 }

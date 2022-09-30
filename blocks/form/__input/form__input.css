@@ -5,10 +5,6 @@
     outline: none;
 }
 
-.form__input:invalid {
-    border-bottom: 1px solid #FF0000;
-}
-
 
 @media screen and (min-width: 321px) and (max-width: 600px) {
     .form__input {
