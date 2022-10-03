@@ -1,16 +1,18 @@
 //Добавляем класс с ошибкой
-const showInputError = (formElement, inputElement, errorMessage) => {
+const showInputError = (formElement, inputElement, errorMessage, obj) => {
     const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
     errorElement.textContent = errorMessage;
-    errorElement.classList.add('form__input-error_active');
+    errorElement.classList.add(obj['errorClass']);
 };
 
+
 //Удаляем класс с ошибкой
-const hideInputError = (formElement, inputElement) => {
+const hideInputError = (formElement, inputElement, obj) => {
     const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-    errorElement.classList.remove('form__input-error_active');
+    errorElement.classList.remove(obj['errorClass']);
     errorElement.textContent = '';
 };
+
 
 //Передача сигнала о валидности формы
 const hasInvalidInput = (inputList) => {
@@ -19,7 +21,9 @@ const hasInvalidInput = (inputList) => {
     });
 }
 
-const checkInputValidity = (formElement, inputElement) => {
+
+//Функция проверки валидности полей
+const checkInputValidity = (formElement, inputElement, obj) => {
     if (inputElement.validity.patternMismatch) {
         inputElement.setCustomValidity(inputElement.dataset.errorMessage);
     } else {
@@ -27,45 +31,38 @@ const checkInputValidity = (formElement, inputElement) => {
     }
 
     if (!inputElement.validity.valid) {
-        showInputError(formElement, inputElement, inputElement.validationMessage);
+        showInputError(formElement, inputElement, inputElement.validationMessage, obj);
     } else {
-        hideInputError(formElement, inputElement);
+        hideInputError(formElement, inputElement, obj);
     }
 };
 
-//Изменение состояния кнопки
-const toggleButtonState = (inputList, buttonElement) => {
+
+//Функция изменения состояния кнопки
+const toggleButtonState = (inputList, buttonElement, obj) => {
     if (hasInvalidInput(inputList)) {
-        buttonElement.classList.add('popup__button-save_inactive');
+        buttonElement.disabled = true;
+        buttonElement.classList.add(obj['inactiveButtonClass']);
     } else {
-        buttonElement.classList.remove('popup__button-save_inactive');
+        buttonElement.disabled = false;
+        buttonElement.classList.remove(obj['inactiveButtonClass']);
     }
 }
 
+
 //Обработчик для всех полей формы
-const setEventListeners = (formElement) => {
-    const inputList = Array.from(formElement.querySelectorAll('.form__input'));
-    const buttonElement = formElement.querySelector('.form__submit');
-    toggleButtonState(inputList, buttonElement);
+const setEventListeners = (formElement, obj) => {
+    const inputList = Array.from(formElement.querySelectorAll(obj['inputSelector']));
+    const buttonElement = formElement.querySelector(obj['submitButtonSelector']);
+    toggleButtonState(inputList, buttonElement, obj);
     inputList.forEach((inputElement) => {
         inputElement.addEventListener('input', function () {
-            checkInputValidity(formElement, inputElement);
-            toggleButtonState(inputList, buttonElement);
+            checkInputValidity(formElement, inputElement, obj);
+            toggleButtonState(inputList, buttonElement, obj);
         });
     });
 };
 
-
-
-export const enableValidation = () => {
-    const formList = Array.from(document.querySelectorAll('.form'));
-    formList.forEach((formElement) => {
-        formElement.addEventListener('submit', function (evt) {
-            evt.preventDefault();
-        });
-        setEventListeners(formElement);
-    });
-};
 
 // Функция для удаления ошибок с форм при закрытии popup
 export function resetError(formElement, obj) {
@@ -78,3 +75,19 @@ export function resetError(formElement, obj) {
     const buttonElement = formElement.querySelector(obj['submitButtonSelector'])
     toggleButtonState(inputList, buttonElement, obj)
 }
+
+
+// Функция добавления обработчика формам 
+export function enableValidation(obj) {
+    const formList = Array.from(document.querySelectorAll(obj['formSelector']));
+    formList.forEach((formElement) => {
+        formElement.addEventListener('submit', function (evt) {
+            evt.preventDefault();
+        });
+        setEventListeners(formElement, obj);
+    });
+};
+
+
+
+

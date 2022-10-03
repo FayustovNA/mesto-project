@@ -17,5 +17,4 @@
 
 .element__like-active {
     background: url(../../../images/LikeBlack.svg);
-    z-index: 3;
 }

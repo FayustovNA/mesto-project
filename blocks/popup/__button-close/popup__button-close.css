@@ -12,15 +12,7 @@
   bottom: calc(100% + 8px);
 }
 
-#browse .popup__button-close {
-  width: 32px;
-  height: 32px;
-  position: relative;
-  cursor: pointer;
-  background-position: center;
-  border: none;
-  z-index: 2;
-  top: -8px;
+#btnClosePopupBrowseImg {
   left: calc(100% + 8px);
 }
 
@@ -37,10 +29,7 @@
     bottom: calc(100% + 10px);
   }
 
-  #browse .popup__button-close {
-    width: 20px;
-    height: 20px;
-    position: absolute;
+  #btnClosePopupBrowseImg {
     left: 220px;
     top: -30px;
   }
