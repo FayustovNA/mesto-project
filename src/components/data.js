@@ -10,8 +10,6 @@ export const btnOpenPopupProfileChange = document.querySelector('.profile__butto
 export const btnOpenAddCardPopup = document.querySelector('.profile__button-add');
 export const iconOpenPopupAvatar = document.querySelector('.profile__avatar');
 
-//Кнопки сохранения и подтверждения
-
 //Кнопки лайка
 export const btnLikeCard = document.querySelectorAll('.element__like');
 
@@ -33,6 +31,17 @@ export const specializForm = document.querySelector('.profile__specialization');
 export const formProfileEdit = popupChangeProfile.querySelector('.form');
 export const nameInput = formProfileEdit.querySelector('#name-input');
 export const jobInput = formProfileEdit.querySelector('#specialization-input');
+
+//Переменные для редактирования карточки
+export const formCard = popupAddCard.querySelector('.form');
+export const elementsContainer = document.querySelector('.elements');
+export const mask = popupAddCard.querySelector('#url-input');
+export const title = popupAddCard.querySelector('#name-input');
+
+//Переменные для смены аватарки
+export const photoAvatar = document.querySelector('.profile__photo');
+export const formAvatarChange = popUpChahgeAvatar.querySelector('.form');
+export const urlLinkAvatar = popUpChahgeAvatar.querySelector('#url-input');
 
 
 //Массив карточек
@@ -66,20 +75,4 @@ export const initialCards = [
 
 
 
-
-
-
-
-//Переменные
-export const buttonSaveElement = popupAddCard.querySelector('.popup__button-save');
-export const formCard = popupAddCard.querySelector('.form');
-
-//export const buttonSavePlace = popUp.querySelector('.popup__button-save');
-export const elementsContainer = document.querySelector('.elements');
-export const mask = popupAddCard.querySelector('#url-input');
-export const title = popupAddCard.querySelector('#name-input');
-
-export const form = document.querySelector('.form');
-export const formInput = form.querySelector('.form__input');
-export const formError = form.querySelector(`.${formInput.id}-error`);
 

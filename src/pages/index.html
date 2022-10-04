@@ -95,7 +95,7 @@
         <div class="popup__container" name="container-forma" id="forma-popupDeleteCards">
             <button type="button" class="popup__button-close" id="btnClosePopupDeleteCard"> </button>
             <h2 class="popup__heading">Вы уверены?</h2>
-            <button type="button" class="popup__button-save form__submit" value="Да"
+            <button type="submit" class="popup__button-save form__submit" value="Да"
                 id="btnConfirmDeleteCard">Да</button>
         </div>
         <div class="popup__overlay"></div>
@@ -107,8 +107,8 @@
             <form class="form" name="form" id='form-3' novalidate>
                 <h2 class="popup__heading">Обновить аватар</h2>
                 <fieldset class="form__set" id="popup__info">
-                    <input type="url" name="url-input" class="form__input" id="url-input"
-                        placeholder="Ссылка на картинку" required data-error-message="Введите url в формате https://">
+                    <input type="url" name="url-input" class="form__input" id="url-input" placeholder="Ссылка на фото"
+                        required data-error-message="Введите url в формате https://">
                     <span class='form__input-error url-input-error' id='url-input-error'></span>
                 </fieldset>
                 <input type="submit" class="popup__button-save form__submit" value="Сохранить"

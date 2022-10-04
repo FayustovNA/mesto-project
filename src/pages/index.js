@@ -22,13 +22,17 @@ import {
     jobInput,
     formProfileEdit,
     allOverlay,
-
-
-    formCard, mask, title, elementsContainer,
+    formCard,
+    formAvatarChange,
+    mask,
+    title,
+    elementsContainer,
+    urlLinkAvatar
 } from '../components/data.js';
 import { openPopUp, closePopUp } from '../components/modal.js';
 import { createCard } from '../components/card.js';
 import { enableValidation, resetError } from '../components/validate.js';
+import { changeAvatar } from '../components/profile.js';
 
 //____________________________________________________________________________________
 
@@ -43,13 +47,11 @@ export function openImagePopup(maskValue, titleValue) {
 //____________________________________________________________________________________
 
 //Открытие попапов
-
-btnOpenPopupProfileChange.addEventListener('click', function () { openPopUp(popupChangeProfile) }); //Открываем редактор профиля
-iconOpenPopupAvatar.addEventListener('click', function () { openPopUp(popUpChahgeAvatar) }); //Открываем редактор аватарки
-btnOpenAddCardPopup.addEventListener('click', function () { openPopUp(popupAddCard) }); //Открываем добавление карточки 
+btnOpenPopupProfileChange.addEventListener('click', function () { resetError(popupChangeProfile, validationConfig); openPopUp(popupChangeProfile) }); //Открываем редактор профиля
+iconOpenPopupAvatar.addEventListener('click', function () { resetError(popUpChahgeAvatar, validationConfig); openPopUp(popUpChahgeAvatar) }); //Открываем редактор аватарки
+btnOpenAddCardPopup.addEventListener('click', function () { resetError(popupAddCard, validationConfig); openPopUp(popupAddCard) }); //Открываем добавление карточки 
 
 //Закрытие попапов по Х 
-
 btnClosePopupProfile.addEventListener('click', function () { closePopUp(popupChangeProfile) }); //Закрываем редактор профиля
 btnClosePopupCard.addEventListener('click', function () { closePopUp(popupAddCard) }); //Закрываем добавление карточки 
 btnClosePopupBrowseImg.addEventListener('click', function () { closePopUp(popupBrowseImg) }); //Закрываем просмотр изображение
@@ -114,27 +116,23 @@ allOverlay.forEach((overLay) => {
 formCard.addEventListener('submit', function (evt) {
     evt.preventDefault();
     addElement(mask.value, title.value);
-    closePopUp(popupAddCard);
     evt.target.reset();
+    closePopUp(popupAddCard);
     //mask.value = '';
     //title.value = '';
 }
 );
 
-
-
-
-
-
-
 //____________________________________________________________________________________
-//Отправка формы изменения карточки профиля
 
+//Отправка формы изменения карточки профиля
+formProfileEdit.addEventListener('submit', submitEditProfileForm);
 
 //____________________________________________________________________________________
 //Отправка формы изменения аватарки профиля
 
-
-//Отправка формы карточки профиля
-formProfileEdit.addEventListener('submit', submitEditProfileForm);
-
+formAvatarChange.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    changeAvatar(urlLinkAvatar.value);
+    evt.target.reset();
+});
