@@ -7,7 +7,6 @@ import {
     btnOpenPopupProfileChange,
     popupChangeProfile,
     popupConfirmDeleteCard,
-    initialCards,
     popupBrowseImg,
     imgPopUp,
     imgPopUpTitle,
@@ -16,10 +15,6 @@ import {
     btnClosePopupBrowseImg,
     btnClosePopupDeleteCard,
     btnClosePopupChangeAvatar,
-    nameForm,
-    specializForm,
-    nameInput,
-    jobInput,
     formProfileEdit,
     allOverlay,
     formCard,
@@ -27,12 +22,16 @@ import {
     mask,
     title,
     elementsContainer,
-    urlLinkAvatar
+    urlLinkAvatar, nameInput,
+    jobInput,
+    nameForm,
+    specializForm
 } from '../components/data.js';
 import { openPopUp, closePopUp } from '../components/modal.js';
 import { createCard } from '../components/card.js';
 import { enableValidation, resetError } from '../components/validate.js';
-import { changeAvatar } from '../components/profile.js';
+import { changeAvatar, addDataProfile, submitEditProfileForm } from '../components/profile.js';
+import { getDataCards, getDataProfile, saveNewCards, deleteCard } from '../components/api.js';
 
 //____________________________________________________________________________________
 
@@ -47,7 +46,11 @@ export function openImagePopup(maskValue, titleValue) {
 //____________________________________________________________________________________
 
 //Открытие попапов
-btnOpenPopupProfileChange.addEventListener('click', function () { resetError(popupChangeProfile, validationConfig); openPopUp(popupChangeProfile) }); //Открываем редактор профиля
+btnOpenPopupProfileChange.addEventListener('click', function () {
+    nameInput.value = nameForm.textContent
+    jobInput.value = specializForm.textContent
+    resetError(popupChangeProfile, validationConfig); openPopUp(popupChangeProfile)
+}); //Открываем редактор профиля
 iconOpenPopupAvatar.addEventListener('click', function () { resetError(popUpChahgeAvatar, validationConfig); openPopUp(popUpChahgeAvatar) }); //Открываем редактор аватарки
 btnOpenAddCardPopup.addEventListener('click', function () { resetError(popupAddCard, validationConfig); openPopUp(popupAddCard) }); //Открываем добавление карточки 
 
@@ -61,20 +64,31 @@ btnClosePopupChangeAvatar.addEventListener('click', function () { closePopUp(pop
 //____________________________________________________________________________________
 
 //Функция добавить карточку
-export function addElement(maskValue, titleValue) {
-    const newCard = createCard(maskValue, titleValue);
+export function addElement(maskValue, titleValue, likes, owner, cardId) {
+    const newCard = createCard(maskValue, titleValue, likes, owner, cardId);
     elementsContainer.prepend(newCard);
 };
 
 //Функция рендера карточек
-export function renderInitialCards() {
-    initialCards.forEach(card => {
-        addElement(card.link, card.name)
+export function renderInitialCards(cards) {
+    cards.forEach(card => {
+        addElement(card.link, card.name, card.likes, card.owner, card._id)
     })
 };
 
-//Рендер карточек
-renderInitialCards();
+//Рендер карточек и данных профиля
+Promise.all([getDataCards(), getDataProfile()])
+    .then(([cards, dataProfile]) => {
+        renderInitialCards(cards.reverse(), renderInitialCards)
+        addDataProfile(
+            dataProfile.name,
+            dataProfile.about,
+            dataProfile.avatar,
+        )
+    })
+    .catch((error) => {
+        console.log(error.message)
+    })
 
 //____________________________________________________________________________________
 
@@ -92,16 +106,6 @@ enableValidation(validationConfig);
 
 //____________________________________________________________________________________
 
-//Функция редактирования профиля
-export function submitEditProfileForm(evt) {
-    evt.preventDefault();
-    nameForm.textContent = nameInput.value;
-    specializForm.textContent = jobInput.value;
-    closePopUp(popupChangeProfile);
-};
-
-//____________________________________________________________________________________
-
 //Закрытие popUp по клику на поле
 allOverlay.forEach((overLay) => {
     overLay.addEventListener('mousedown', function () {
@@ -112,25 +116,31 @@ allOverlay.forEach((overLay) => {
 
 //____________________________________________________________________________________
 
-//Отправка формы добавления карточки 
+//Отправка формы добавления карточки
 formCard.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    addElement(mask.value, title.value);
-    evt.target.reset();
-    closePopUp(popupAddCard);
-    //mask.value = '';
-    //title.value = '';
-}
-);
+    saveNewCards(title.value, mask.value)
+        .then((data) => {
+            addElement(data.name, data.link, data.likes, data.owner, data._id);
+            evt.target.reset();
+            closePopUp(popupAddCard);
+        })
+        .catch((error) => {
+            console.error('Error', error)
+        })
+})
 
 //____________________________________________________________________________________
 
 //Отправка формы изменения карточки профиля
-formProfileEdit.addEventListener('submit', submitEditProfileForm);
+formProfileEdit.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    submitEditProfileForm(nameInput.value, jobInput.value)
+});
 
 //____________________________________________________________________________________
-//Отправка формы изменения аватарки профиля
 
+//Отправка формы изменения аватарки профиля
 formAvatarChange.addEventListener('submit', (evt) => {
     evt.preventDefault();
     changeAvatar(urlLinkAvatar.value);

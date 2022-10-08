@@ -1,0 +1,10 @@
+.element__addlike {
+    align-items: center;
+    right: 20px;
+    top: 23px;
+    padding: 0;
+    margin: auto;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+}

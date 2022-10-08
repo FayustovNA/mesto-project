@@ -13,6 +13,9 @@ export const iconOpenPopupAvatar = document.querySelector('.profile__avatar');
 //Кнопки лайка
 export const btnLikeCard = document.querySelectorAll('.element__like');
 
+//Кнопка сохранения изменения профиля
+export const btnSaveChangeProfile = document.querySelector('#btnSaveChangeProfile');
+
 //Попапы + все оверлеи
 export const popupChangeProfile = document.querySelector('#popup-profile');
 export const popupAddCard = document.querySelector('#popup-card');
@@ -42,35 +45,6 @@ export const title = popupAddCard.querySelector('#name-input');
 export const photoAvatar = document.querySelector('.profile__photo');
 export const formAvatarChange = popUpChahgeAvatar.querySelector('.form');
 export const urlLinkAvatar = popUpChahgeAvatar.querySelector('#url-input');
-
-
-//Массив карточек
-export const initialCards = [
-    {
-        name: 'Архыз',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-        name: 'Челябинская область',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-        name: 'Иваново',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-        name: 'Камчатка',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-        name: 'Холмогорский район',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-        name: 'Байкал',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-];
 
 
 

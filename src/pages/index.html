@@ -54,7 +54,8 @@
                         <span class='form__input-error specialization-input-error'
                             id='specialization-input-error'></span>
                     </fieldset>
-                    <input type="submit" class="popup__button-save form__submit" value="Сохранить" />
+                    <input type="submit" class="popup__button-save form__submit" id="btnSaveChangeProfile"
+                        value="Сохранить" />
                 </form>
             </div>
             <div class="popup__overlay"></div>
@@ -125,7 +126,10 @@
             <button type="button" class="element__delete"> </button>
             <div class="element__mask-title">
                 <h2 class="element__title"></h2>
-                <button type="button" class="element__like"> </button>
+                <div class="element__addlike">
+                    <button type="button" class="element__like"> </button>
+                    <span class="element__counterlike"></span>
+                </div>
             </div>
         </div>
     </template>

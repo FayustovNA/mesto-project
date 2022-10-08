@@ -1,4 +1,7 @@
 .element__mask-title {
     display: flex;
     flex-direction: row;
+    width: 100%;
+    position: relative;
+    height: 85px;
 }
