@@ -1,7 +1,21 @@
 import { nameForm, specializForm, photoAvatar, popUpChahgeAvatar, popupChangeProfile, btnSaveChangeProfile } from './data.js';
 import { getDataProfile, saveAvatarProfile, saveDataProfile } from './api.js';
 import { closePopUp } from './modal';
+export let idProfile = '';
 
+//Получение ID с сервера 
+getDataProfile()
+    .then((res) => {
+        return getIDforMyProfile(res._id)
+    }).catch((error) => {
+        console.log(error.message)
+    })
+
+
+//Функция присваивания ID пользователю
+export function getIDforMyProfile(id) {
+    idProfile = id
+};
 
 // Добавление данных в профиль из сервера
 export function addDataProfile(nameData, specializData, urlAvatarData, idProfile) {

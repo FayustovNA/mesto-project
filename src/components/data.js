@@ -13,8 +13,9 @@ export const iconOpenPopupAvatar = document.querySelector('.profile__avatar');
 //Кнопки лайка
 export const btnLikeCard = document.querySelectorAll('.element__like');
 
-//Кнопка сохранения изменения профиля
+//Кнопка сохранения изменения профиля и сохранения добавления карточки
 export const btnSaveChangeProfile = document.querySelector('#btnSaveChangeProfile');
+export const btnSaveAddCards = document.querySelector('#btnSaveAddCard');
 
 //Попапы + все оверлеи
 export const popupChangeProfile = document.querySelector('#popup-profile');

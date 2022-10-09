@@ -13,12 +13,12 @@
 <body class="root">
 
     <header class="header">
-        <img class="header__logo" src="<%=require('../../images/logo.svg')%>" alt="Лого">
+        <img class="header__logo" src="<%=require('../images/logo.svg')%>" alt="Лого">
     </header>
     <main class="content">
         <section class="profile">
             <div class="profile__avatar">
-                <img class="profile__photo" src="<%=require('../../images/image.jpg')%>" alt="Аватарка">
+                <img class="profile__photo" src="<%=require('../images/image.jpg')%>" alt="Аватарка">
             </div>
             <div class="profile__info">
                 <div class="profile__name">
@@ -76,7 +76,7 @@
                             data-error-message="Введите url в формате https://">
                         <span class='form__input-error url-input-error' id='url-input-error'></span>
                     </fieldset>
-                    <input type="submit" class="popup__button-save form__submit" value="Создать" />
+                    <input type="submit" class="popup__button-save form__submit" value="Создать" id="btnSaveAddCard" />
                 </form>
             </div>
             <div class="popup__overlay"></div>

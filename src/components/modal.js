@@ -11,12 +11,9 @@ export function closePopUp(popup) {
 };
 
 //Функция закрытие popUp по Esc
-export function closePopupEsc() {
-    document.addEventListener('keydown', function (e) {
+export function closePopupEsc(e) {
+    if (e.key === 'Escape') {
         const openedPopup = document.querySelector('.popup_opened');
-        if (e.key === 'Escape') {
-            closePopUp(openedPopup);
-        }
-    });
-}
-
+        closePopUp(openedPopup);
+    }
+};

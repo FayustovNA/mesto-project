@@ -25,13 +25,13 @@ import {
     urlLinkAvatar, nameInput,
     jobInput,
     nameForm,
-    specializForm
+    specializForm, btnSaveAddCards
 } from '../components/data.js';
 import { openPopUp, closePopUp } from '../components/modal.js';
 import { createCard } from '../components/card.js';
 import { enableValidation, resetError } from '../components/validate.js';
 import { changeAvatar, addDataProfile, submitEditProfileForm } from '../components/profile.js';
-import { getDataCards, getDataProfile, saveNewCards, deleteCard } from '../components/api.js';
+import { getDataCards, getDataProfile, saveNewCards } from '../components/api.js';
 
 //____________________________________________________________________________________
 
@@ -121,9 +121,9 @@ formCard.addEventListener('submit', function (evt) {
     evt.preventDefault();
     saveNewCards(title.value, mask.value)
         .then((data) => {
-            addElement(data.name, data.link, data.likes, data.owner, data._id);
-            evt.target.reset();
+            addElement(data.link, data.name, data.likes, data.owner, data._id);
             closePopUp(popupAddCard);
+            evt.target.reset();
         })
         .catch((error) => {
             console.error('Error', error)
