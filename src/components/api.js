@@ -12,14 +12,14 @@ const config = {
 //__________________________________________________________________________________||Работа с данными профиля
 // Загрузка данных для пользователя с сервера 
 export const getDataProfile = () => {
-    return fetch('https://nomoreparties.co/v1/plus-cohort-15/users/me', {
+    return fetch(`${config.baseUrl}/users/me`, {
         headers: config.headers,
     }).then(checkResponse)
 };
 
 // Сохранение данных профиля на сервер 
 export const saveDataProfile = (nameData, specializData) => {
-    return fetch('https://nomoreparties.co/v1/plus-cohort-15/users/me', {
+    return fetch(`${config.baseUrl}/users/me`, {
         method: 'PATCH',
         headers: config.headers,
         body: JSON.stringify({
@@ -31,7 +31,7 @@ export const saveDataProfile = (nameData, specializData) => {
 
 // Сохранение аватарки на сервер 
 export const saveAvatarProfile = (imgAvatar) => {
-    return fetch('https://nomoreparties.co/v1/plus-cohort-15/users/me/avatar', {
+    return fetch(`${config.baseUrl}/users/me/avatar`, {
         method: 'PATCH',
         headers: config.headers,
         body: JSON.stringify({
@@ -43,14 +43,14 @@ export const saveAvatarProfile = (imgAvatar) => {
 //__________________________________________________________________________________||Работа с данными карточек
 // Загрузка данных для карточек с сервера
 export const getDataCards = () => {
-    return fetch('https://nomoreparties.co/v1/plus-cohort-15/cards', {
+    return fetch(`${config.baseUrl}/cards`, {
         headers: config.headers,
     }).then(checkResponse)
 };
 
 // Сохранение карточки на сервер 
 export const saveNewCards = (titleCards, imgLinkUrl) => {
-    return fetch('https://nomoreparties.co/v1/plus-cohort-15/cards', {
+    return fetch(`${config.baseUrl}/cards`, {
         method: 'POST',
         headers: config.headers,
         body: JSON.stringify({
@@ -63,8 +63,8 @@ export const saveNewCards = (titleCards, imgLinkUrl) => {
 };
 
 // Уделение карточки с сервера 
-export const deleteCard = (id) => {
-    return fetch(`https://nomoreparties.co/v1/plus-cohort-15/cards/${id}`,
+export const deleteCard = (evt) => {
+    return fetch(`https://nomoreparties.co/v1/plus-cohort-15/cards/${evt.target.parentElement.id}`,
         {
             method: 'DELETE',
             headers: config.headers,
@@ -73,7 +73,7 @@ export const deleteCard = (id) => {
 
 //Отправка лайка на сервер 
 export const addOneCardLike = (id) => {
-    return fetch(`https://nomoreparties.co/v1/plus-cohort-15/cards/likes/${id}`,
+    return fetch(`${config.baseUrl}/cards/likes/${id}`,
         {
             method: 'PUT',
             headers: config.headers,
@@ -82,7 +82,7 @@ export const addOneCardLike = (id) => {
 
 // Удаление лайка с сервера
 export const deleteOneCardLike = (id) => {
-    return fetch(`https://nomoreparties.co/v1/plus-cohort-15/cards/likes/${id}`,
+    return fetch(`${config.baseUrl}/cards/likes/${id}`,
         {
             method: 'DELETE',
             headers: config.headers,

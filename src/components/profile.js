@@ -1,29 +1,15 @@
-import { nameForm, specializForm, photoAvatar, popUpChahgeAvatar, popupChangeProfile, btnSaveChangeProfile } from './data.js';
+import { nameForm, specializForm, photoAvatar, popUpChahgeAvatar, popupChangeProfile, btnSaveChangeProfile, formAvatarChange } from './data.js';
 import { getDataProfile, saveAvatarProfile, saveDataProfile } from './api.js';
 import { closePopUp } from './modal';
-export let idProfile = '';
 
-//Получение ID с сервера 
-getDataProfile()
-    .then((res) => {
-        return getIDforMyProfile(res._id)
-    }).catch((error) => {
-        console.log(error.message)
-    })
-
-
-//Функция присваивания ID пользователю
-export function getIDforMyProfile(id) {
-    idProfile = id
-};
 
 // Добавление данных в профиль из сервера
-export function addDataProfile(nameData, specializData, urlAvatarData, idProfile) {
+export function addDataProfile(nameData, specializData, urlAvatarData, idData) {
     nameForm.textContent = nameData;
     specializForm.textContent = specializData;
     photoAvatar.src = urlAvatarData;
+    nameForm.id = idData;
 };
-
 
 // Функция изменения профиля + отправка на сервер 
 export function submitEditProfileForm(nameData, specializData) {
@@ -32,7 +18,7 @@ export function submitEditProfileForm(nameData, specializData) {
             btnSaveChangeProfile.value = 'Сохранение...'
             getDataProfile()
                 .then((res) => {
-                    addDataProfile(res.name, res.about, res.avatar)
+                    addDataProfile(res.name, res.about, res.avatar, res._id)
                 })
                 .then(() => {
                     closePopUp(popupChangeProfile)
@@ -55,7 +41,11 @@ export function changeAvatar(urlLinkAvatar) {
         .then(() => {
             photoAvatar.src = urlLinkAvatar;
             closePopUp(popUpChahgeAvatar)
+            formAvatarChange.reset()
         })
+        // .then((evt) => {
+        //     evt.target.reset()
+        // })
         .catch((error) => {
             console.log(error)
         })

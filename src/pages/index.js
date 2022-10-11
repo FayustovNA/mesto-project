@@ -25,13 +25,14 @@ import {
     urlLinkAvatar, nameInput,
     jobInput,
     nameForm,
-    specializForm, btnSaveAddCards
+    specializForm, btnConfirmDeleteCard, btnSaveAddCards
 } from '../components/data.js';
 import { openPopUp, closePopUp } from '../components/modal.js';
-import { createCard } from '../components/card.js';
+import { createCard, cardIDdelete } from '../components/card.js';
 import { enableValidation, resetError } from '../components/validate.js';
-import { changeAvatar, addDataProfile, submitEditProfileForm } from '../components/profile.js';
-import { getDataCards, getDataProfile, saveNewCards } from '../components/api.js';
+import { changeAvatar, submitEditProfileForm, addDataProfile } from '../components/profile.js';
+import { getDataCards, getDataProfile, saveNewCards, deleteCard } from '../components/api.js';
+
 
 //____________________________________________________________________________________
 
@@ -77,14 +78,15 @@ export function renderInitialCards(cards) {
 };
 
 //Рендер карточек и данных профиля
-Promise.all([getDataCards(), getDataProfile()])
-    .then(([cards, dataProfile]) => {
-        renderInitialCards(cards.reverse(), renderInitialCards)
+Promise.all([getDataProfile(), getDataCards()])
+    .then(([dataProfile, cards]) => {
         addDataProfile(
             dataProfile.name,
             dataProfile.about,
             dataProfile.avatar,
+            dataProfile._id,
         )
+        renderInitialCards(cards.reverse(), renderInitialCards)
     })
     .catch((error) => {
         console.log(error.message)
@@ -118,15 +120,19 @@ allOverlay.forEach((overLay) => {
 
 //Отправка формы добавления карточки
 formCard.addEventListener('submit', function (evt) {
+    btnSaveAddCards.value = 'Создание...'
     evt.preventDefault();
     saveNewCards(title.value, mask.value)
         .then((data) => {
-            addElement(data.link, data.name, data.likes, data.owner, data._id);
-            closePopUp(popupAddCard);
+            //btnSaveAddCards.value = 'Создание...'
+            addElement(data.link, data.name, data.likes, data.owner, data._id)
+            closePopUp(popupAddCard)
             evt.target.reset();
         })
         .catch((error) => {
-            console.error('Error', error)
+            console.error('Error', error);
+        }).finally(() => {
+            btnSaveAddCards.value = 'Создать';
         })
 })
 
@@ -139,10 +145,25 @@ formProfileEdit.addEventListener('submit', (evt) => {
 });
 
 //____________________________________________________________________________________
-
 //Отправка формы изменения аватарки профиля
 formAvatarChange.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    changeAvatar(urlLinkAvatar.value);
-    evt.target.reset();
+    changeAvatar(urlLinkAvatar.value)
 });
+
+//____________________________________________________________________________________
+//Подтверждение удаление карточки 
+btnConfirmDeleteCard.addEventListener('click', () => {
+    btnConfirmDeleteCard.value = 'Удаление...';
+    deleteCard(cardIDdelete)
+        .then((data) => {
+            cardIDdelete.target.closest('.element').remove()
+            closePopUp(popupConfirmDeleteCard)
+        })
+        .catch((error) => {
+            console.log(error)
+        }).finally(() => {
+            btnConfirmDeleteCard.value = 'Да';
+        })
+})
+

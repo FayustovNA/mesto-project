@@ -1,10 +1,9 @@
 //Импорт переменных и функций
-import { openImagePopup } from '../pages/index';
-import { popupConfirmDeleteCard } from './data.js';
-import { closePopUp, openPopUp } from './modal.js';
-import { deleteCard, deleteOneCardLike, addOneCardLike } from './api.js'
-import { idProfile } from './profile.js'
-
+import { openImagePopup } from '../pages/index.js';
+import { popupConfirmDeleteCard, nameForm } from './data.js';
+import { openPopUp } from './modal.js';
+import { deleteOneCardLike, addOneCardLike } from './api.js';
+export let cardIDdelete = '';
 
 //Функция создать карточку
 export function createCard(maskValue, titleValue, likes, owner, cardId) {
@@ -42,20 +41,23 @@ export function createCard(maskValue, titleValue, likes, owner, cardId) {
         // elementNew.querySelector('.element__like').addEventListener('click', function (evt) {
         //     evt.target.classList.toggle('element__like-active');
     });
-    if (owner._id !== idProfile) { elementNew.querySelector('.element__delete').classList.add('element__delete_inactive') }
 
-    elementNew.querySelector('.element__delete').addEventListener('click', function () {
+    if (owner._id !== nameForm.id) { elementNew.querySelector('.element__delete').classList.add('element__delete_inactive') };
+
+    elementNew.querySelector('.element__delete').addEventListener('click', function (evt) {
         openPopUp(popupConfirmDeleteCard);
-        popupConfirmDeleteCard.querySelector('#btnConfirmDeleteCard').addEventListener('click', function () {
-            deleteCard(elementNew.id).then(() => {
-                elementNew.remove();
-                closePopUp(popupConfirmDeleteCard);
-            }).catch((error) => {
-                console.log(error)
-            })
+        cardIDdelete = evt;
+        // popupConfirmDeleteCard.querySelector('#btnConfirmDeleteCard').addEventListener('click', function () {
+        //     deleteCard(elementNew.id).then(() => {
+        //         elementNew.remove();
+        //         closePopUp(popupConfirmDeleteCard);
+        //     }).catch((error) => {
+        //         console.log(error)
+        //     })
 
-        });
+        // });
     });
     elementNew.querySelector('.element__mask').addEventListener('click', function () { openImagePopup(maskValue, titleValue) });
     return elementNew;
 };
+

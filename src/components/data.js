@@ -13,9 +13,10 @@ export const iconOpenPopupAvatar = document.querySelector('.profile__avatar');
 //Кнопки лайка
 export const btnLikeCard = document.querySelectorAll('.element__like');
 
-//Кнопка сохранения изменения профиля и сохранения добавления карточки
+//Кнопка сохранения / изменения профиля и сохранения / добавления / подтверждения работы с карточками
 export const btnSaveChangeProfile = document.querySelector('#btnSaveChangeProfile');
 export const btnSaveAddCards = document.querySelector('#btnSaveAddCard');
+export const btnConfirmDeleteCard = document.querySelector('#btnConfirmDeleteCard');
 
 //Попапы + все оверлеи
 export const popupChangeProfile = document.querySelector('#popup-profile');
@@ -35,6 +36,8 @@ export const specializForm = document.querySelector('.profile__specialization');
 export const formProfileEdit = popupChangeProfile.querySelector('.form');
 export const nameInput = formProfileEdit.querySelector('#name-input');
 export const jobInput = formProfileEdit.querySelector('#specialization-input');
+//export const idProfile = document.querySelector('.profile');
+
 
 //Переменные для редактирования карточки
 export const formCard = popupAddCard.querySelector('.form');
