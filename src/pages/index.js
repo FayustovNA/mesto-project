@@ -16,7 +16,7 @@ import {
     btnClosePopupDeleteCard,
     btnClosePopupChangeAvatar,
     formProfileEdit,
-    allOverlay,
+    allOverlays,
     formCard,
     formAvatarChange,
     mask,
@@ -32,6 +32,7 @@ import { createCard, cardIDdelete } from '../components/card.js';
 import { enableValidation, resetError } from '../components/validate.js';
 import { changeAvatar, submitEditProfileForm, addDataProfile } from '../components/profile.js';
 import { getDataCards, getDataProfile, saveNewCards, deleteCard } from '../components/api.js';
+import { validationConfig } from '../components/constants.js';
 
 
 //____________________________________________________________________________________
@@ -86,7 +87,7 @@ Promise.all([getDataProfile(), getDataCards()])
             dataProfile.avatar,
             dataProfile._id,
         )
-        renderInitialCards(cards.reverse(), renderInitialCards)
+        renderInitialCards(cards.reverse())
     })
     .catch((error) => {
         console.log(error.message)
@@ -95,21 +96,12 @@ Promise.all([getDataProfile(), getDataCards()])
 //____________________________________________________________________________________
 
 //Валидация форм
-const validationConfig = {
-    formSelector: '.form',
-    inputSelector: '.form__input',
-    submitButtonSelector: '.form__submit',
-    inactiveButtonClass: 'popup__button-save_inactive',
-    //inputErrorClass: 'popup__item_type_error',
-    errorClass: 'form__input-error_active'
-}
-
 enableValidation(validationConfig);
 
 //____________________________________________________________________________________
 
 //Закрытие popUp по клику на поле
-allOverlay.forEach((overLay) => {
+allOverlays.forEach((overLay) => {
     overLay.addEventListener('mousedown', function () {
         const openedPopup = document.querySelector('.popup_opened');
         closePopUp(openedPopup);

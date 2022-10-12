@@ -37,27 +37,14 @@ export function createCard(maskValue, titleValue, likes, owner, cardId) {
                     console.log(error)
                 })
         }
-
-        // elementNew.querySelector('.element__like').addEventListener('click', function (evt) {
-        //     evt.target.classList.toggle('element__like-active');
     });
-
     if (owner._id !== nameForm.id) { elementNew.querySelector('.element__delete').classList.add('element__delete_inactive') };
 
     elementNew.querySelector('.element__delete').addEventListener('click', function (evt) {
         openPopUp(popupConfirmDeleteCard);
         cardIDdelete = evt;
-        // popupConfirmDeleteCard.querySelector('#btnConfirmDeleteCard').addEventListener('click', function () {
-        //     deleteCard(elementNew.id).then(() => {
-        //         elementNew.remove();
-        //         closePopUp(popupConfirmDeleteCard);
-        //     }).catch((error) => {
-        //         console.log(error)
-        //     })
-
-        // });
     });
-    elementNew.querySelector('.element__mask').addEventListener('click', function () { openImagePopup(maskValue, titleValue) });
+    maskImg.addEventListener('click', function () { openImagePopup(maskValue, titleValue) });
     return elementNew;
 };
 

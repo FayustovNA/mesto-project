@@ -64,7 +64,7 @@ export const saveNewCards = (titleCards, imgLinkUrl) => {
 
 // Уделение карточки с сервера 
 export const deleteCard = (evt) => {
-    return fetch(`https://nomoreparties.co/v1/plus-cohort-15/cards/${evt.target.parentElement.id}`,
+    return fetch(`${config.baseUrl}/cards/${evt.target.parentElement.id}`,
         {
             method: 'DELETE',
             headers: config.headers,

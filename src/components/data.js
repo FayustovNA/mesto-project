@@ -10,13 +10,11 @@ export const btnOpenPopupProfileChange = document.querySelector('.profile__butto
 export const btnOpenAddCardPopup = document.querySelector('.profile__button-add');
 export const iconOpenPopupAvatar = document.querySelector('.profile__avatar');
 
-//Кнопки лайка
-export const btnLikeCard = document.querySelectorAll('.element__like');
-
 //Кнопка сохранения / изменения профиля и сохранения / добавления / подтверждения работы с карточками
 export const btnSaveChangeProfile = document.querySelector('#btnSaveChangeProfile');
 export const btnSaveAddCards = document.querySelector('#btnSaveAddCard');
 export const btnConfirmDeleteCard = document.querySelector('#btnConfirmDeleteCard');
+export const btnSaveAvatar = document.querySelector('#btnConfirmChangeAvatar');
 
 //Попапы + все оверлеи
 export const popupChangeProfile = document.querySelector('#popup-profile');
@@ -24,7 +22,7 @@ export const popupAddCard = document.querySelector('#popup-card');
 export const popUpChahgeAvatar = document.querySelector('#popup-changeAvatar');
 export const popupBrowseImg = document.querySelector('#popup-browse');
 export const popupConfirmDeleteCard = document.querySelector('#popup-deleteCards');
-export const allOverlay = document.querySelectorAll('.popup__overlay');
+export const allOverlays = document.querySelectorAll('.popup__overlay');
 
 //Просматриваемая картинка карточки и ее название при открытии попапа просмотра 
 export const imgPopUp = popupBrowseImg.querySelector('.popup__img');
@@ -37,7 +35,6 @@ export const formProfileEdit = popupChangeProfile.querySelector('.form');
 export const nameInput = formProfileEdit.querySelector('#name-input');
 export const jobInput = formProfileEdit.querySelector('#specialization-input');
 //export const idProfile = document.querySelector('.profile');
-
 
 //Переменные для редактирования карточки
 export const formCard = popupAddCard.querySelector('.form');

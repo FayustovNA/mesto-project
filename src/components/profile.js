@@ -1,4 +1,8 @@
-import { nameForm, specializForm, photoAvatar, popUpChahgeAvatar, popupChangeProfile, btnSaveChangeProfile, formAvatarChange } from './data.js';
+import {
+    nameForm, specializForm, photoAvatar,
+    popUpChahgeAvatar, popupChangeProfile,
+    btnSaveChangeProfile, formAvatarChange, btnSaveAvatar
+} from './data.js';
 import { getDataProfile, saveAvatarProfile, saveDataProfile } from './api.js';
 import { closePopUp } from './modal';
 
@@ -13,22 +17,19 @@ export function addDataProfile(nameData, specializData, urlAvatarData, idData) {
 
 // Функция изменения профиля + отправка на сервер 
 export function submitEditProfileForm(nameData, specializData) {
+    btnSaveChangeProfile.value = 'Сохранение...';
     saveDataProfile(nameData, specializData)
-        .then((data) => {
-            btnSaveChangeProfile.value = 'Сохранение...'
-            getDataProfile()
-                .then((res) => {
-                    addDataProfile(res.name, res.about, res.avatar, res._id)
-                })
-                .then(() => {
-                    closePopUp(popupChangeProfile)
-                })
-                .catch((error) => {
-                    console.log(error.message)
-                })
-                .finally(() => {
-                    btnSaveChangeProfile.value = 'Сохранить'
-                })
+        .then((res) => {
+            addDataProfile(res.name, res.about, res.avatar, res._id)
+        })
+        .then(() => {
+            closePopUp(popupChangeProfile)
+        })
+        .catch((error) => {
+            console.log(error.message)
+        })
+        .finally(() => {
+            btnSaveChangeProfile.value = 'Сохранить'
         })
         .catch((error) => {
             console.log(error.message)
@@ -37,15 +38,15 @@ export function submitEditProfileForm(nameData, specializData) {
 
 // // Функция изменения аватарки + отправка на сервер 
 export function changeAvatar(urlLinkAvatar) {
+    btnSaveAvatar.value = 'Сохранение...';
     saveAvatarProfile(urlLinkAvatar)
         .then(() => {
             photoAvatar.src = urlLinkAvatar;
             closePopUp(popUpChahgeAvatar)
             formAvatarChange.reset()
+        }).finally(() => {
+            btnSaveAvatar.value = 'Сохранить'
         })
-        // .then((evt) => {
-        //     evt.target.reset()
-        // })
         .catch((error) => {
             console.log(error)
         })
