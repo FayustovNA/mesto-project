@@ -5,7 +5,7 @@ import { api } from './api.js';
 export let cardIDdelete = '';
 
 export default class Card {
-    constructor(data, selector) {
+    constructor(data, selector, handleCardClick) {
         this._titleCard = data.name;
         this._imageCard = data.link;
         this._idCard = data._id;
@@ -65,6 +65,12 @@ export default class Card {
                         console.log(error)
                     })
             }
+        })
+
+        this._element.querySelector('.element__delete').addEventListener('click', function (evt) {
+            const confirmDelete = new Popup(popupConfirmDeleteCard);
+            confirmDelete.openPopUp()
+            cardIDdelete = evt
         })
 
         // this._element = this._setEventListeners();
