@@ -38,8 +38,9 @@ import {
   submitEditProfileForm,
   addDataProfile,
 } from '../components/profile.js'
-import { api } from '../components/api.js'
+import { api } from '../components/api.js';
 import { validationConfig } from '../components/constants.js'
+import Section from '../components/Section.js';
 
 //____________________________________________________________________________________
 
@@ -88,18 +89,38 @@ btnClosePopupChangeAvatar.addEventListener('click', function () {
 
 //____________________________________________________________________________________
 
-//Функция добавить карточку
-export function addElement(maskValue, titleValue, likes, owner, cardId) {
-  const newCard = createCard(maskValue, titleValue, likes, owner, cardId)
-  elementsContainer.prepend(newCard)
-}
+// //Функция добавить карточку
+// export function addElement(maskValue, titleValue, likes, owner, cardId) {
+//   const newCard = createCard(maskValue, titleValue, likes, owner, cardId)
+//   elementsContainer.prepend(newCard)
+// }
 
-//Функция рендера карточек
-export function renderInitialCards(cards) {
-  cards.forEach((card) => {
-    addElement(card.link, card.name, card.likes, card.owner, card._id)
-  })
-}
+
+// //Функция рендера карточек
+// export function renderInitialCards(cards) {
+//   cards.forEach((card) => {
+//     addElement(card.link, card.name, card.likes, card.owner, card._id)
+//   })
+// }
+
+//____________________________________________________________________________________
+
+// // Функция для первоначальной загрузки карточек
+// export function renderInitialCards(initialCards) {
+//   initialCards.map((card) => {
+//     const newCard = new Card(
+//       card.name,
+//       card.link,
+//       card.likes,
+//       card.owner,
+//       card._id,
+//       cardTemplateSelector
+//     )
+//     newCard.returnCreatedCard()
+
+//   })
+// }
+
 
 //Рендер карточек и данных профиля
 Promise.all([api.getDataProfile(), api.getDataCards()])
@@ -110,7 +131,9 @@ Promise.all([api.getDataProfile(), api.getDataCards()])
       dataProfile.avatar,
       dataProfile._id
     )
-    renderInitialCards(cards.reverse())
+    //renderInitialCards(cards.reverse())
+    const defaultCardList = new Section({ items: cards.reverse() }, elementsContainer);
+    defaultCardList.renderItems();
   })
   .catch((error) => {
     console.log(error.message)
