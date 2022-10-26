@@ -105,23 +105,6 @@ btnClosePopupChangeAvatar.addEventListener('click', function () {
 
 //____________________________________________________________________________________
 
-// // Функция для первоначальной загрузки карточек
-// export function renderInitialCards(initialCards) {
-//   initialCards.map((card) => {
-//     const newCard = new Card(
-//       card.name,
-//       card.link,
-//       card.likes,
-//       card.owner,
-//       card._id,
-//       cardTemplateSelector
-//     )
-//     newCard.returnCreatedCard()
-
-//   })
-// }
-
-
 //Рендер карточек и данных профиля
 Promise.all([api.getDataProfile(), api.getDataCards()])
   .then(([dataProfile, cards]) => {

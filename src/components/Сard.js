@@ -5,14 +5,14 @@ import { api } from './api.js';
 export let cardIDdelete = '';
 
 export default class Card {
-    constructor({ data, handleCardClick }, selector) {
+    constructor(data, selector) {
         this._titleCard = data.name;
         this._imageCard = data.link;
         this._idCard = data._id;
         this.likes = data.likes;
         this.owner = data.owner;
         this._selector = selector;
-        this._handleCardClick = handleCardClick;
+        //this._handleCardClick = handleCardClick;
     }
 
     _getElementCard() {
