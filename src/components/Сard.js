@@ -1,6 +1,7 @@
 //Импорт переменных и функций
-import { popupConfirmDeleteCard, popupBrowseImg, nameForm } from './data.js';
+import { popupConfirmDeleteCard, popupBrowseImg, nameForm, btnClosePopupBrowseImg } from './data.js';
 import Popup from './Popup.js';
+import PopupWithImage from './PopupWithImage.js';
 import { api } from './api.js';
 export let cardIDdelete = '';
 
@@ -73,13 +74,14 @@ export default class Card {
             cardIDdelete = evt
         })
 
-        // this._element = this._setEventListeners();
+        this._element.querySelector('.element__mask').addEventListener('click', function () {
+            const openImg = new PopupWithImage(this._titleCard, this._imageCard, popupBrowseImg);
+            openImg.openPopUp();
+            // btnClosePopupBrowseImg.addEventListener('click', function () {
+            //     openImg.closePopUp();
+            // })
+        })
+
         return this._element;
     }
-
-    // _setEventListeners() {
-    //     this._imageCard.addEventListener('click', () => {
-    //         this._handleCardClick(popupBrowseImg);
-    //     });
-    // }
 }

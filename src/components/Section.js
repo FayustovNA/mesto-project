@@ -3,7 +3,6 @@ import Card from './Сard.js';
 
 export default class Section {
     constructor({ items }, containerSelector) {
-        console.log(items);
         this._renderedItems = items;
         this._container = containerSelector;
     }

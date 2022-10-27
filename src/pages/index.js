@@ -41,6 +41,7 @@ import {
 import { api } from '../components/api.js';
 import { validationConfig } from '../components/constants.js'
 import Section from '../components/Section.js';
+import Popup from '../components/Popup.js';
 
 //____________________________________________________________________________________
 
@@ -60,14 +61,17 @@ btnOpenPopupProfileChange.addEventListener('click', function () {
   jobInput.value = specializForm.textContent
   resetError(popupChangeProfile, validationConfig)
   openPopUp(popupChangeProfile)
+
 }) //Открываем редактор профиля
 iconOpenPopupAvatar.addEventListener('click', function () {
   resetError(popUpChahgeAvatar, validationConfig)
   openPopUp(popUpChahgeAvatar)
+
 }) //Открываем редактор аватарки
 btnOpenAddCardPopup.addEventListener('click', function () {
   resetError(popupAddCard, validationConfig)
   openPopUp(popupAddCard)
+
 }) //Открываем добавление карточки
 
 //Закрытие попапов по Х
@@ -77,11 +81,15 @@ btnClosePopupProfile.addEventListener('click', function () {
 btnClosePopupCard.addEventListener('click', function () {
   closePopUp(popupAddCard)
 }) //Закрываем добавление карточки
-btnClosePopupBrowseImg.addEventListener('click', function () {
-  closePopUp(popupBrowseImg)
-}) //Закрываем просмотр изображение
+
+
+//btnClosePopupBrowseImg.addEventListener('click', function () { closePopUp(popupBrowseImg) })
+//Закрываем просмотр изображение
+
+
 btnClosePopupDeleteCard.addEventListener('click', function () {
   closePopUp(popupConfirmDeleteCard)
+
 }) //Закрываем подтверждение удаления карточки
 btnClosePopupChangeAvatar.addEventListener('click', function () {
   closePopUp(popUpChahgeAvatar)

@@ -1,16 +1,13 @@
 
+export default class UserInfo {
+    constructor(profileName, profileInfo) {
+        this._profName = profileName;
+        this._profInfo = profileInfo;
+    }
+    getUserInfo() {
 
-//   elementNew
-//     .querySelector('.element__delete')
-//     .addEventListener('click', function (evt) {
-//       openPopUp(popupConfirmDeleteCard)
-//       cardIDdelete = evt
-//     })
+    }
+    setUserInfo() {
 
-//   maskImg.addEventListener('click', function () {
-//     openImagePopup(maskValue, titleValue)
-//   })
-
-//   return elementNew
-// }
-
+    }
+}
