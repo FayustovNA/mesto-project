@@ -1,9 +1,10 @@
 import Card from './Сard.js';
-
+import PopupWithImage from './PopupWithImage.js';
 
 export default class Section {
-    constructor({ items }, containerSelector) {
+    constructor({ items, renderer }, containerSelector) {
         this._renderedItems = items;
+        this._renderer = renderer;
         this._container = containerSelector;
     }
     addItem(element) {
@@ -12,14 +13,15 @@ export default class Section {
     clear() {
         this._container.innerHTML = '';
     }
-    renderItems(data) {
+    renderItems() {
         this.clear();
 
         this._renderedItems.forEach(item => {
-            const card = new Card(item, '#element-template');
-            const cardElement = card.createCards();
+            this._renderer(item);
+            // const card = new Card(item, '#element-template');
+            // const cardElement = card.createCards();
 
-            this.addItem(cardElement);
+            //this.addItem(cardElement);
         });
     }
 }

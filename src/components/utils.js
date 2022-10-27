@@ -14,4 +14,3 @@
 //         elementsContainer.prepend(cardElement);
 //     })
 // }
-

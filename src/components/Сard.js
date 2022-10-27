@@ -13,7 +13,7 @@ export default class Card {
         this.likes = data.likes;
         this.owner = data.owner;
         this._selector = selector;
-        //this._handleCardClick = handleCardClick;
+        this._handleCardClick = handleCardClick;
     }
 
     _getElementCard() {
@@ -25,9 +25,13 @@ export default class Card {
     createCards() {
         this._element = this._getElementCard();
 
-        this._element.querySelector('.element__title').textContent = this._titleCard;
-        this._element.querySelector('.element__mask').src = this._imageCard;
-        this._element.querySelector('.element__mask').setAttribute('alt', this._titleCard);
+        const titleCard = this._element.querySelector('.element__title');
+        titleCard.textContent = this._titleCard;
+
+        const imgCard = this._element.querySelector('.element__mask');
+        imgCard.src = this._imageCard;
+        imgCard.setAttribute('alt', this._titleCard);
+
         this._element.id = this._idCard;
 
         const cardLike = this._element.querySelector('.element__like');
@@ -73,15 +77,21 @@ export default class Card {
             confirmDelete.openPopUp()
             cardIDdelete = evt
         })
-
-        this._element.querySelector('.element__mask').addEventListener('click', function () {
-            const openImg = new PopupWithImage(this._titleCard, this._imageCard, popupBrowseImg);
-            openImg.openPopUp();
-            // btnClosePopupBrowseImg.addEventListener('click', function () {
-            //     openImg.closePopUp();
-            // })
-        })
+        // this._element.querySelector('.element__mask').addEventListener('click', function () {
+        //     const openImg = new PopupWithImage(titleCard, imgCard, popupBrowseImg);
+        //     console.log(titleCard.src);
+        //     openImg.openPopUp();
+        //     // btnClosePopupBrowseImg.addEventListener('click', function () {
+        //     //     openImg.closePopUp();
+        //     // })
+        // })
 
         return this._element;
+    }
+
+    _setEventListeners() {
+        imgCard.addEventListener('click', (evt) => {
+            this._handleCardClick();
+        })
     }
 }

@@ -42,8 +42,10 @@ import { api } from '../components/api.js';
 import { validationConfig } from '../components/constants.js'
 import Section from '../components/Section.js';
 import Popup from '../components/Popup.js';
+import Card from '../components/Сard.js'
 
 //____________________________________________________________________________________
+
 
 //Функция просмотра фотографий карточек
 export function openImagePopup(maskValue, titleValue) {
@@ -72,7 +74,8 @@ btnOpenAddCardPopup.addEventListener('click', function () {
   resetError(popupAddCard, validationConfig)
   openPopUp(popupAddCard)
 
-}) //Открываем добавление карточки
+})
+
 
 //Закрытие попапов по Х
 btnClosePopupProfile.addEventListener('click', function () {
@@ -123,13 +126,21 @@ Promise.all([api.getDataProfile(), api.getDataCards()])
       dataProfile._id
     )
     //renderInitialCards(cards.reverse())
-    const defaultCardList = new Section({ items: cards.reverse() }, elementsContainer);
+    //dataCards = cards.reverse();
+    // const defaultCardList = new Section({ items: cards.reverse() }, elementsContainer);
+    // defaultCardList.renderItems();
+    const defaultCardList = new Section({
+      items: cards.reverse(), renderer: (item) => {
+        const card = new Card(item, '#element-template');
+        const cardElement = card.createCards();
+        defaultCardList.addItem(cardElement);
+      }
+    }, elementsContainer);
     defaultCardList.renderItems();
   })
   .catch((error) => {
     console.log(error.message)
   })
-
 //____________________________________________________________________________________
 
 //Валидация форм
