@@ -20,7 +20,6 @@ export default class Section {
             this._renderer(item);
             // const card = new Card(item, '#element-template');
             // const cardElement = card.createCards();
-
             //this.addItem(cardElement);
         });
     }

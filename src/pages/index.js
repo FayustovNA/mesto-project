@@ -42,18 +42,55 @@ import { api } from '../components/api.js';
 import { validationConfig } from '../components/constants.js'
 import Section from '../components/Section.js';
 import Popup from '../components/Popup.js';
-import Card from '../components/Сard.js'
+import Card from '../components/Сard.js';
+import PopupWithImage from '../components/PopupWithImage.js';
 
 //____________________________________________________________________________________
 
+//Рендер карточек и данных профиля
+Promise.all([api.getDataProfile(), api.getDataCards()])
+  .then(([dataProfile, cards]) => {
+    addDataProfile(
+      dataProfile.name,
+      dataProfile.about,
+      dataProfile.avatar,
+      dataProfile._id
+    )
+    //renderInitialCards(cards.reverse())
+    //dataCards = cards.reverse();
+    // const defaultCardList = new Section({ items: cards.reverse() }, elementsContainer);
+    // defaultCardList.renderItems();
+    const defaultCardList = new Section({
+      items: cards.reverse(), renderer: (item) => {
+        const card = new Card({
+          data: item, handleCardClick: () => {
+            const popUpImg = new PopupWithImage({ data: item }, popupBrowseImg);
+            popUpImg.openPopUp();
+          }
+        }, '#element-template');
+        const cardElement = card.createCards();
+        defaultCardList.addItem(cardElement);
+      }
+    }, elementsContainer);
+    defaultCardList.renderItems();
+  })
+  .catch((error) => {
+    console.log(error.message)
+  })
+//____________________________________________________________________________________
 
-//Функция просмотра фотографий карточек
-export function openImagePopup(maskValue, titleValue) {
-  imgPopUp.src = maskValue
-  imgPopUpTitle.textContent = titleValue
-  imgPopUp.alt = titleValue
-  openPopUp(popupBrowseImg)
-}
+//Работа с попапом просмотра изображения карточки
+const popUpImgBrowse = new Popup(popupBrowseImg);
+popUpImgBrowse.setEventListeners();
+
+
+// //Функция просмотра фотографий карточек
+// export function openImagePopup(maskValue, titleValue) {
+//   imgPopUp.src = maskValue
+//   imgPopUpTitle.textContent = titleValue
+//   imgPopUp.alt = titleValue
+//   openPopUp(popupBrowseImg)
+// }
 
 //____________________________________________________________________________________
 
@@ -76,8 +113,12 @@ btnOpenAddCardPopup.addEventListener('click', function () {
 
 })
 
+//____________________________________________________________________________________
 
-//Закрытие попапов по Х
+
+
+
+
 btnClosePopupProfile.addEventListener('click', function () {
   closePopUp(popupChangeProfile)
 }) //Закрываем редактор профиля
@@ -86,8 +127,10 @@ btnClosePopupCard.addEventListener('click', function () {
 }) //Закрываем добавление карточки
 
 
-//btnClosePopupBrowseImg.addEventListener('click', function () { closePopUp(popupBrowseImg) })
-//Закрываем просмотр изображение
+// btnClosePopupBrowseImg.addEventListener('click', function () {
+//   const closePopUp = new Popup(popupBrowseImg);
+//   closePopUp.closePopUp();
+// }) //Закрываем просмотр изображение
 
 
 btnClosePopupDeleteCard.addEventListener('click', function () {
@@ -95,6 +138,7 @@ btnClosePopupDeleteCard.addEventListener('click', function () {
 
 }) //Закрываем подтверждение удаления карточки
 btnClosePopupChangeAvatar.addEventListener('click', function () {
+
   closePopUp(popUpChahgeAvatar)
 }) //Закрываем редактор аватарки
 
@@ -116,45 +160,22 @@ btnClosePopupChangeAvatar.addEventListener('click', function () {
 
 //____________________________________________________________________________________
 
-//Рендер карточек и данных профиля
-Promise.all([api.getDataProfile(), api.getDataCards()])
-  .then(([dataProfile, cards]) => {
-    addDataProfile(
-      dataProfile.name,
-      dataProfile.about,
-      dataProfile.avatar,
-      dataProfile._id
-    )
-    //renderInitialCards(cards.reverse())
-    //dataCards = cards.reverse();
-    // const defaultCardList = new Section({ items: cards.reverse() }, elementsContainer);
-    // defaultCardList.renderItems();
-    const defaultCardList = new Section({
-      items: cards.reverse(), renderer: (item) => {
-        const card = new Card(item, '#element-template');
-        const cardElement = card.createCards();
-        defaultCardList.addItem(cardElement);
-      }
-    }, elementsContainer);
-    defaultCardList.renderItems();
-  })
-  .catch((error) => {
-    console.log(error.message)
-  })
-//____________________________________________________________________________________
+
 
 //Валидация форм
 enableValidation(validationConfig)
 
 //____________________________________________________________________________________
 
-//Закрытие popUp по клику на поле
-allOverlays.forEach((overLay) => {
-  overLay.addEventListener('mousedown', function () {
-    const openedPopup = document.querySelector('.popup_opened')
-    closePopUp(openedPopup)
-  })
-})
+// //Закрытие popUp по клику на поле
+// allOverlays.forEach((overLay) => {
+//   overLay.addEventListener('mousedown', function () {
+//     const openedPopup = document.querySelector('.popup_opened');
+//     const closePopUp = new Popup(openedPopup);
+//     closePopUp.closePopUp()
+//   })
+// })
+
 
 //____________________________________________________________________________________
 

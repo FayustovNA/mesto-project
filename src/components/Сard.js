@@ -6,7 +6,7 @@ import { api } from './api.js';
 export let cardIDdelete = '';
 
 export default class Card {
-    constructor(data, selector, handleCardClick) {
+    constructor({ data, handleCardClick }, selector) {
         this._titleCard = data.name;
         this._imageCard = data.link;
         this._idCard = data._id;
@@ -77,21 +77,14 @@ export default class Card {
             confirmDelete.openPopUp()
             cardIDdelete = evt
         })
-        // this._element.querySelector('.element__mask').addEventListener('click', function () {
-        //     const openImg = new PopupWithImage(titleCard, imgCard, popupBrowseImg);
-        //     console.log(titleCard.src);
-        //     openImg.openPopUp();
-        //     // btnClosePopupBrowseImg.addEventListener('click', function () {
-        //     //     openImg.closePopUp();
-        //     // })
-        // })
 
+        this._setEventListeners();
         return this._element;
     }
 
     _setEventListeners() {
-        imgCard.addEventListener('click', (evt) => {
-            this._handleCardClick();
-        })
+        this._element.querySelector('.element__mask').addEventListener('click', () => {
+            this._handleCardClick(this._titleCard, this._imageCard);
+        });
     }
 }
