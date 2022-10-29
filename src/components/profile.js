@@ -11,6 +11,71 @@ import {
 import { api } from './api.js'
 import { closePopUp } from './modal'
 
+export class UserInfo {
+  constructor({ nameSelector, aboutSelector, avatarSelector }) {
+    this._nameElement = document.querySelector(nameSelector)
+    this._aboutElement = document.querySelector(aboutSelector)
+    this._avatarElement = document.querySelector(avatarSelector)
+    this._formId = null
+  }
+
+  getUserInfo() {
+    return api
+      .getDataProfile()
+      .then((data) => {
+        return data
+      })
+      .catch((error) => {
+        console.log(error.message)
+      })
+  }
+
+  firstRenderUserInfo = (nameData, specializData, avatar, formId) => {
+    this._nameElement.textContent = nameData
+    this._aboutElement.textContent = specializData
+    this._avatarElement.src = avatar
+    this._formId = formId
+  }
+
+  setUserInfo = (nameData, specializData) => {
+    this._nameElement.textContent = nameData
+    this._aboutElement.textContent = specializData
+    btnSaveChangeProfile.value = 'Сохранение...'
+    api
+      .saveDataProfile(nameData, specializData)
+      .then((res) => {
+        addDataProfile(res.name, res.about, res.avatar, res._id)
+      })
+      .then(() => {
+        closePopUp(popupChangeProfile)
+      })
+      .catch((error) => {
+        console.log(error.message)
+      })
+      .finally(() => {
+        btnSaveChangeProfile.value = 'Сохранить'
+      })
+  }
+
+  setUserAvatar = (newAvatar) => {
+    this._avatarElement.src = newAvatar
+    btnSaveAvatar.value = 'Сохранение...'
+    api
+      .saveAvatarProfile(urlLinkAvatar)
+      .then(() => {
+        photoAvatar.src = urlLinkAvatar
+        closePopUp(popUpChahgeAvatar)
+        formAvatarChange.reset()
+      })
+      .finally(() => {
+        btnSaveAvatar.value = 'Сохранить'
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+}
+
 // Добавление данных в профиль из сервера
 export function addDataProfile(nameData, specializData, urlAvatarData, idData) {
   nameForm.textContent = nameData
@@ -18,30 +83,7 @@ export function addDataProfile(nameData, specializData, urlAvatarData, idData) {
   photoAvatar.src = urlAvatarData
   nameForm.id = idData
 }
-
-// Функция изменения профиля + отправка на сервер
-export function submitEditProfileForm(nameData, specializData) {
-  btnSaveChangeProfile.value = 'Сохранение...'
-  api
-    .saveDataProfile(nameData, specializData)
-    .then((res) => {
-      addDataProfile(res.name, res.about, res.avatar, res._id)
-    })
-    .then(() => {
-      closePopUp(popupChangeProfile)
-    })
-    .catch((error) => {
-      console.log(error.message)
-    })
-    .finally(() => {
-      btnSaveChangeProfile.value = 'Сохранить'
-    })
-    .catch((error) => {
-      console.log(error.message)
-    })
-}
-
-// // Функция изменения аватарки + отправка на сервер
+// Функция изменения аватарки + отправка на сервер
 export function changeAvatar(urlLinkAvatar) {
   btnSaveAvatar.value = 'Сохранение...'
   api
