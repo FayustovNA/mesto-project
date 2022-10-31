@@ -1,9 +1,9 @@
 //Импорт переменных и функций
-import { popupConfirmDeleteCard, popupBrowseImg, nameForm, btnClosePopupBrowseImg } from './data.js';
+import { popupConfirmDeleteCard, popupBrowseImg, nameForm, btnClosePopupBrowseImg, btnConfirmDeleteCard, idProfile } from './data.js';
 import Popup from './Popup.js';
 import PopupWithImage from './PopupWithImage.js';
 import { api } from './api.js';
-export let cardIDdelete = '';
+
 
 export default class Card {
     constructor({ data, handleCardClick }, selector) {
@@ -38,12 +38,12 @@ export default class Card {
         const counterLikes = this._element.querySelector('.element__counterlike');
         counterLikes.textContent = this.likes.length;
 
-        if (this.owner._id !== nameForm.id) {
+        if (this.owner._id !== idProfile.id) {
             this._element.querySelector('.element__delete').classList.add('element__delete_inactive')
         }
 
         this.likes.forEach((like) => {
-            if (like._id == nameForm.id) {
+            if (like._id == idProfile.id) {
                 cardLike.classList.add('element__like-active')
             }
         })
@@ -72,12 +72,6 @@ export default class Card {
             }
         })
 
-        this._element.querySelector('.element__delete').addEventListener('click', function (evt) {
-            const confirmDelete = new Popup(popupConfirmDeleteCard);
-            confirmDelete.openPopUp()
-            cardIDdelete = evt
-        })
-
         this._setEventListeners();
         return this._element;
     }
@@ -86,5 +80,12 @@ export default class Card {
         this._element.querySelector('.element__mask').addEventListener('click', () => {
             this._handleCardClick(this._titleCard, this._imageCard);
         });
+
+        this._element.querySelector('.element__delete').addEventListener('click', function (evt) {
+            const confirmDelete = new Popup(popupConfirmDeleteCard);
+            this.idCardForDelete = evt.target.parentElement.id;
+            confirmDelete.openPopUp();
+        });
+
     }
 }

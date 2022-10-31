@@ -1,6 +1,4 @@
-import Card from './Сard.js';
-import PopupWithImage from './PopupWithImage.js';
-
+//Добавление элементов в DOM
 export default class Section {
     constructor({ items, renderer }, containerSelector) {
         this._renderedItems = items;
@@ -18,9 +16,6 @@ export default class Section {
 
         this._renderedItems.forEach(item => {
             this._renderer(item);
-            // const card = new Card(item, '#element-template');
-            // const cardElement = card.createCards();
-            //this.addItem(cardElement);
         });
     }
 }

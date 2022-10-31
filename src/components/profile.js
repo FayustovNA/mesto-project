@@ -9,7 +9,7 @@ import {
   btnSaveAvatar,
 } from './data.js'
 import { api } from './api.js'
-import { closePopUp } from './modal'
+
 
 // Добавление данных в профиль из сервера
 export function addDataProfile(nameData, specializData, urlAvatarData, idData) {
