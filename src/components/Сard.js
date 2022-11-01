@@ -3,6 +3,7 @@ import { popupConfirmDeleteCard, popupBrowseImg, nameForm, btnClosePopupBrowseIm
 import Popup from './Popup.js';
 import PopupWithImage from './PopupWithImage.js';
 import { api } from './api.js';
+let idCardForDelete = '';
 
 
 export default class Card {
@@ -81,11 +82,25 @@ export default class Card {
             this._handleCardClick(this._titleCard, this._imageCard);
         });
 
-        this._element.querySelector('.element__delete').addEventListener('click', function (evt) {
+        this._element.querySelector('.element__delete').addEventListener('click', (evt) => {
             const confirmDelete = new Popup(popupConfirmDeleteCard);
-            this.idCardForDelete = evt.target.parentElement.id;
+            idCardForDelete = evt.target.parentElement.id;
             confirmDelete.openPopUp();
-        });
 
+            btnConfirmDeleteCard.addEventListener('click', () => {
+                btnConfirmDeleteCard.value = 'Удаление...'
+                api.deleteCard(idCardForDelete)
+                    .then((data) => {
+                        document.getElementById(idCardForDelete).closest('.element').remove();
+                        confirmDelete.closePopUp();
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                    })
+                    .finally(() => {
+                        btnConfirmDeleteCard.value = 'Да'
+                    })
+            })
+        });
     }
 }

@@ -76,28 +76,3 @@ export default class UserInfo {
             })
     }
 }
-
-// // Добавление данных в профиль из сервера
-// export function addDataProfile(nameData, specializData, urlAvatarData, idData) {
-//     nameForm.textContent = nameData
-//     specializForm.textContent = specializData
-//     photoAvatar.src = urlAvatarData
-//     nameForm.id = idData
-// }
-// // Функция изменения аватарки + отправка на сервер
-// export function changeAvatar(urlLinkAvatar) {
-//     btnSaveAvatar.value = 'Сохранение...'
-//     api
-//         .saveAvatarProfile(urlLinkAvatar)
-//         .then(() => {
-//             photoAvatar.src = urlLinkAvatar
-//             closePopUp(popUpChahgeAvatar)
-//             formAvatarChange.reset()
-//         })
-//         .finally(() => {
-//             btnSaveAvatar.value = 'Сохранить'
-//         })
-//         .catch((error) => {
-//             console.log(error)
-//         })
-// }

@@ -39,7 +39,7 @@ class Api {
   }
 
   deleteCard = (evt) => {
-    return fetch(`${this.baseUrl}/cards/${evt.target.parentElement.id}`, {
+    return fetch(`${this.baseUrl}/cards/${evt}`, {
       method: 'DELETE',
       headers: this.headers,
     }).then(this._checkResponse)
