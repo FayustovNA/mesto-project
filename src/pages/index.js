@@ -12,9 +12,11 @@ import {
   imgPopUpTitle,
   btnClosePopupProfile,
   btnClosePopupCard,
+  btnSaveChangeProfile,
   btnClosePopupBrowseImg,
   btnClosePopupDeleteCard,
   btnClosePopupChangeAvatar,
+  btnSaveAvatar,
   formProfileEdit,
   allOverlays,
   formCard,
@@ -33,23 +35,19 @@ import {
 import { openPopUp, closePopUp } from '../components/modal.js'
 import Card from '../components/card.js'
 import Section from '../components/section.js'
-import { PopupWithImage, PopupWithForm } from '../components/popup.js'
+import Popup, { PopupWithImage, PopupWithForm } from '../components/popup.js'
 import { enableValidation, resetError } from '../components/validate.js'
-import {
-  changeAvatar,
-  submitEditProfileForm,
-  addDataProfile,
-  UserInfo,
-} from '../components/profile.js'
+import { UserInfo } from '../components/profile.js'
 import { api } from '../components/api.js'
 import { validationConfig } from '../components/constants.js'
 
-//Открытие попапов
+const userInstance = new UserInfo({
+  nameSelector: '.profile__name-first',
+  aboutSelector: '.profile__specialization',
+  avatarSelector: '.profile__photo',
+})
 
-iconOpenPopupAvatar.addEventListener('click', function () {
-  resetError(popUpChahgeAvatar, validationConfig)
-  openPopUp(popUpChahgeAvatar)
-}) //Открываем редактор аватарки
+//Открытие попапов
 
 //Закрытие попапов по Х
 btnClosePopupProfile.addEventListener('click', function () {
@@ -70,12 +68,7 @@ btnClosePopupChangeAvatar.addEventListener('click', function () {
 //Рендер карточек и данных профиля
 Promise.all([api.getDataProfile(), api.getDataCards()])
   .then(([dataProfile, cards]) => {
-    const userInfo = new UserInfo({
-      nameSelector: '.profile__name-first',
-      aboutSelector: '.profile__specialization',
-      avatarSelector: '.profile__photo',
-    })
-    userInfo.firstRenderUserInfo(
+    userInstance.firstRenderUserInfo(
       dataProfile.name,
       dataProfile.about,
       dataProfile.avatar,
@@ -108,8 +101,45 @@ Promise.all([api.getDataProfile(), api.getDataCards()])
     console.log(error.message)
   })
 
-//____________________________________________________________________________________
+//
 
+const userEditForm = new PopupWithForm('#popup-profile', (formData) => {
+  btnSaveChangeProfile.value = 'Сохранение...'
+  api
+    .saveDataProfile(formData['name-input'], formData['specialization-input'])
+    .then((res) => {
+      userInstance.setUserInfo(res.name, res.about)
+    })
+    .catch((error) => {
+      console.log(error.message)
+    })
+    .finally(() => {
+      userEditForm.closePopUp()
+      btnSaveChangeProfile.value = 'Сохранить'
+    })
+})
+userEditForm.setEventListeners()
+
+const userEditAvatarForm = new PopupWithForm(
+  '#popup-changeAvatar',
+  (formData) => {
+    btnSaveAvatar.value = 'Сохранение...'
+    api
+      .saveAvatarProfile(formData['url-input'])
+      .then((res) => {
+        userInstance.setUserAvatar(res.avatar)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+      .finally(() => {
+        userEditAvatarForm.closePopUp
+        formAvatarChange.reset()
+        btnSaveAvatar.value = 'Сохранить'
+      })
+  }
+)
+userEditAvatarForm.setEventListeners()
 //Валидация форм
 enableValidation(validationConfig)
 
@@ -148,31 +178,21 @@ btnOpenAddCardPopup.addEventListener('click', () => {
 }) //Открываем добавление карточки
 
 btnOpenPopupProfileChange.addEventListener('click', () => {
-  const userInstance = new UserInfo({
-    nameSelector: '.profile__name-first',
-    aboutSelector: '.profile__specialization',
-    avatarSelector: '.profile__photo',
-  })
-  const form = new PopupWithForm('#popup-profile', (formData) => {
-    userInstance.setUserInfo(
-      formData['name-input'],
-      formData['specialization-input']
-    )
-  })
-  userInstance.getUserInfo().then((res) => {
-    form.setInputValues(
-      {
-        nameSelector: '#name-input',
-        aboutSelector: '#specialization-input',
-      },
-      res.name,
-      res.about
-    )
-  })
-  form.setEventListeners()
-  form.openPopUp()
-}) //Открываем редактор профиля
+  const { name, about } = userInstance.getUserInfo()
+  userEditForm.setInputValues(
+    {
+      nameSelector: '#name-input',
+      aboutSelector: '#specialization-input',
+    },
+    name,
+    about
+  )
+  userEditForm.openPopUp()
+})
 
+iconOpenPopupAvatar.addEventListener('click', function () {
+  userEditAvatarForm.openPopUp()
+}) //Открываем редактор аватарки
 //____________________________________________________________________________________
 //Отправка формы изменения аватарки профиля
 formAvatarChange.addEventListener('submit', (evt) => {
@@ -182,18 +202,5 @@ formAvatarChange.addEventListener('submit', (evt) => {
 
 //____________________________________________________________________________________
 //Подтверждение удаление карточки
-btnConfirmDeleteCard.addEventListener('click', () => {
-  btnConfirmDeleteCard.value = 'Удаление...'
-  api
-    .deleteCard(cardIDdelete)
-    .then((data) => {
-      cardIDdelete.target.closest('.element').remove()
-      closePopUp(popupConfirmDeleteCard)
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-    .finally(() => {
-      btnConfirmDeleteCard.value = 'Да'
-    })
-})
+const popDeleteCard = new Popup('#popup-deleteCards')
+popDeleteCard.setEventListeners()

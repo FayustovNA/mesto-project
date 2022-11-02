@@ -69,8 +69,6 @@ export class PopupWithForm extends Popup {
   }
 
   setInputValues = ({ nameSelector, aboutSelector }, name, about) => {
-    console.log(this._popup.querySelector(nameSelector))
-
     this._popup.querySelector(nameSelector).value = name
     this._popup.querySelector(aboutSelector).value = about
   }
