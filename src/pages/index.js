@@ -36,7 +36,7 @@ import { openPopUp, closePopUp } from '../components/modal.js'
 import Card from '../components/card.js'
 import Section from '../components/section.js'
 import Popup, { PopupWithImage, PopupWithForm } from '../components/popup.js'
-import { enableValidation, resetError } from '../components/validate.js'
+import { FormValidator } from '../components/validate.js'
 import { UserInfo } from '../components/profile.js'
 import { api } from '../components/api.js'
 import { validationConfig } from '../components/constants.js'
@@ -47,21 +47,9 @@ const userInstance = new UserInfo({
   avatarSelector: '.profile__photo',
 })
 
-//Открытие попапов
-
-//Закрытие попапов по Х
-btnClosePopupProfile.addEventListener('click', function () {
-  closePopUp(popupChangeProfile)
-}) //Закрываем редактор профиля
-btnClosePopupCard.addEventListener('click', function () {
-  closePopUp(popupAddCard)
-}) //Закрываем добавление карточки
 btnClosePopupDeleteCard.addEventListener('click', function () {
   closePopUp(popupConfirmDeleteCard)
 }) //Закрываем подтверждение удаления карточки
-btnClosePopupChangeAvatar.addEventListener('click', function () {
-  closePopUp(popUpChahgeAvatar)
-}) //Закрываем редактор аватарки
 
 //____________________________________________________________________________________
 
@@ -120,6 +108,12 @@ const userEditForm = new PopupWithForm('#popup-profile', (formData) => {
 })
 userEditForm.setEventListeners()
 
+const editProfilValidator = new FormValidator(
+  validationConfig,
+  document.querySelector('#popup-profile')
+)
+editProfilValidator.enableValidation()
+
 const userEditAvatarForm = new PopupWithForm(
   '#popup-changeAvatar',
   (formData) => {
@@ -141,7 +135,11 @@ const userEditAvatarForm = new PopupWithForm(
 )
 userEditAvatarForm.setEventListeners()
 //Валидация форм
-enableValidation(validationConfig)
+const changeAvatarValidation = new FormValidator(
+  validationConfig,
+  document.querySelector('#popup-changeAvatar')
+)
+changeAvatarValidation.enableValidation()
 
 //Отправка формы добавления карточки
 btnOpenAddCardPopup.addEventListener('click', () => {
@@ -154,7 +152,7 @@ btnOpenAddCardPopup.addEventListener('click', () => {
           {
             data,
             handleCardClick: () => {
-              const popupImg = new PopupWithImage(item, '#popup-browse')
+              const popupImg = new PopupWithImage(data, '#popup-browse')
               popupImg.setEventListeners()
               popupImg.openPopUp()
             },
@@ -177,6 +175,13 @@ btnOpenAddCardPopup.addEventListener('click', () => {
   form.openPopUp()
 }) //Открываем добавление карточки
 
+const addCardValidator = new FormValidator(
+  validationConfig,
+  document.querySelector('#popup-card')
+)
+
+addCardValidator.enableValidation()
+
 btnOpenPopupProfileChange.addEventListener('click', () => {
   const { name, about } = userInstance.getUserInfo()
   userEditForm.setInputValues(
@@ -193,12 +198,6 @@ btnOpenPopupProfileChange.addEventListener('click', () => {
 iconOpenPopupAvatar.addEventListener('click', function () {
   userEditAvatarForm.openPopUp()
 }) //Открываем редактор аватарки
-//____________________________________________________________________________________
-//Отправка формы изменения аватарки профиля
-formAvatarChange.addEventListener('submit', (evt) => {
-  evt.preventDefault()
-  changeAvatar(urlLinkAvatar.value)
-})
 
 //____________________________________________________________________________________
 //Подтверждение удаление карточки
