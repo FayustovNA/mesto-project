@@ -1,43 +1,17 @@
 import './index.css'
 import {
     iconOpenPopupAvatar,
-    popUpChahgeAvatar,
     btnOpenAddCardPopup,
     popupAddCard,
     btnOpenPopupProfileChange,
-    popupChangeProfile,
     popupConfirmDeleteCard,
     popupBrowseImg,
-    imgPopUp,
-    imgPopUpTitle,
-    btnClosePopupProfile,
-    btnClosePopupCard,
-    btnClosePopupBrowseImg,
-    btnClosePopupDeleteCard,
-    btnClosePopupChangeAvatar,
-    formProfileEdit,
-    allOverlays,
-    formCard,
     formAvatarChange,
-    mask,
-    title,
     elementsContainer,
-    urlLinkAvatar,
-    nameInput,
-    jobInput,
-    nameForm,
-    specializForm,
-    btnConfirmDeleteCard,
     btnSaveAddCards,
 } from '../components/data.js'
-import { enableValidation, resetError } from '../components/validate.js'
-import {
-    changeAvatar,
-    submitEditProfileForm,
-    addDataProfile,
-} from '../components/profile.js'
-import { validationConfig } from '../components/constants.js'
 
+import { validationConfig } from '../components/constants.js'
 
 import { api } from '../components/api.js';
 import Section from '../components/Section.js';
@@ -46,7 +20,7 @@ import Popup from '../components/Popup.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
-import Api from '../components/api.js';
+import FormValidator from '../components/FormValidator.js';
 
 //____________________________________________________________________________________
 
@@ -86,13 +60,7 @@ Promise.all([api.getDataProfile(), api.getDataCards()])
     })
 //____________________________________________________________________________________
 
-//Валидация форм
-
-enableValidation(validationConfig);
-
-//____________________________________________________________________________________
-
-// //Работа с попапом добавления карточки 
+//Работа с попапом добавления карточки 
 
 btnOpenAddCardPopup.addEventListener('click', () => {
     const form = new PopupWithForm({
@@ -129,6 +97,14 @@ btnOpenAddCardPopup.addEventListener('click', () => {
     form.openPopUp()
 })
 
+
+const addCardValidator = new FormValidator(
+    validationConfig,
+    document.querySelector('#popup-card')
+)
+
+addCardValidator.enableValidation()
+
 //____________________________________________________________________________________
 
 //Работа с попапом с попапом подтверждения удаления карточки
@@ -139,107 +115,83 @@ popDeleteCard.setEventListeners();
 //____________________________________________________________________________________
 
 //Работа с попапом редактирования данных профиля
+const userInstance = new UserInfo({
+    nameSelector: '.profile__name-first',
+    aboutSelector: '.profile__specialization',
+    avatarSelector: '.profile__photo',
+})
+
+const userEditForm = new PopupWithForm({
+    handleFormSubmit: (formData) => {
+        btnSaveChangeProfile.value = 'Сохранение...'
+        api
+            .saveDataProfile(formData['name-input'], formData['specialization-input'])
+            .then((res) => {
+                userInstance.setUserInfo(res.name, res.about)
+            })
+            .catch((error) => {
+                console.log(error.message)
+            })
+            .finally(() => {
+                userEditForm.closePopUp()
+                btnSaveChangeProfile.value = 'Сохранить'
+            })
+    }
+}, '#popup-profile')
+userEditForm.setEventListeners()
+
+const editProfilValidator = new FormValidator(
+    validationConfig,
+    document.querySelector('#popup-profile')
+)
+editProfilValidator.enableValidation()
 
 btnOpenPopupProfileChange.addEventListener('click', () => {
-    const userInstance = new UserInfo({
-        nameSelector: '.profile__name-first',
-        aboutSelector: '.profile__specialization',
-        avatarSelector: '.profile__photo',
-    })
-    const form = new PopupWithForm({
-        handleFormSubmit: (formData) => {
-            userInstance.setUserInfo(
-                formData['name-input'],
-                formData['specialization-input']
-            )
-        }
-    }, popupChangeProfile);
-
-    userInstance.getUserInfo()
-        .then((res) => {
-            form.setInputValues(
-                {
-                    nameSelector: '#name-input',
-                    aboutSelector: '#specialization-input',
-                },
-                res.name,
-                res.about
-            )
-        })
-    form.setEventListeners()
-    form.openPopUp()
+    const { name, about } = userInstance.getUserInfo()
+    userEditForm.setInputValues(
+        {
+            nameSelector: '#name-input',
+            aboutSelector: '#specialization-input',
+        },
+        name,
+        about
+    )
+    userEditForm.openPopUp()
 })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//____________________________________________________________________________________
 
 //Работа с попапом изменения аватарки
-// iconOpenPopupAvatar.addEventListener('click', () => {
-//     const popSelectAvatar = new PopupWithForm({
-//         handleFormSubmit: (formData) => {
-//             btnSaveAvatar.value = 'Сохранение...'
-//             api
-//                 .saveAvatarProfile(formData['url-input'])
-//                 .then(() => {
-//                     photoAvatar.src = urlLinkAvatar
-//                     closePopUp(popUpChahgeAvatar)
-//                     formAvatarChange.reset()
-//                 })
-//                 .finally(() => {
-//                     btnSaveAvatar.value = 'Сохранить'
-//                 })
-//                 .catch((error) => {
-//                     console.log(error)
-//                 })
-//         }
 
-//     }, popUpChahgeAvatar);
-//     popSelectAvatar.setEventListeners();
-//     popSelectAvatar.openPopUp();
-// })
+const userEditAvatarForm = new PopupWithForm(
+    {
+        handleFormSubmit: (formData) => {
+            btnSaveAvatar.value = 'Сохранение...'
+            api
+                .saveAvatarProfile(formData['url-input'])
+                .then((res) => {
+                    userInstance.setUserAvatar(res.avatar)
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+                .finally(() => {
+                    userEditAvatarForm.closePopUp
+                    formAvatarChange.reset()
+                    btnSaveAvatar.value = 'Сохранить'
+                })
+        }
+    }, '#popup-changeAvatar')
+userEditAvatarForm.setEventListeners()
 
-//____________________________________________________________________________________
+const changeAvatarValidation = new FormValidator(
+    validationConfig,
+    document.querySelector('#popup-changeAvatar')
+)
+changeAvatarValidation.enableValidation()
 
-//____________________________________________________________________________________
-
-
-//Отправка формы изменения карточки профиля
-formProfileEdit.addEventListener('submit', (evt) => {
-    evt.preventDefault()
-    submitEditProfileForm(nameInput.value, jobInput.value)
-})
-
-//____________________________________________________________________________________
-//Отправка формы изменения аватарки профиля
-formAvatarChange.addEventListener('submit', (evt) => {
-    evt.preventDefault()
-    changeAvatar(urlLinkAvatar.value)
+iconOpenPopupAvatar.addEventListener('click', function () {
+    userEditAvatarForm.openPopUp()
 })
 
 //____________________________________________________________________________________

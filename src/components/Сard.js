@@ -1,7 +1,6 @@
 //Импорт переменных и функций
-import { popupConfirmDeleteCard, popupBrowseImg, nameForm, btnClosePopupBrowseImg, btnConfirmDeleteCard, idProfile } from './data.js';
+import { popupConfirmDeleteCard, btnConfirmDeleteCard, idProfile } from './data.js';
 import Popup from './Popup.js';
-import PopupWithImage from './PopupWithImage.js';
 import { api } from './api.js';
 let idCardForDelete = '';
 
