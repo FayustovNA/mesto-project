@@ -9,16 +9,18 @@ import {
     formAvatarChange,
     elementsContainer,
     btnSaveAddCards,
+    btnSaveChangeProfile,
+    btnSaveAvatar,
+    idProfile, validationConfig,
+    popupChangeProfile, popUpChahgeAvatar
 } from '../components/data.js'
 
-import { validationConfig } from '../components/constants.js'
-
-import { api } from '../components/api.js';
+import { api } from '../components/Api.js';
 import Section from '../components/Section.js';
 import Card from '../components/Сard.js';
 import Popup from '../components/Popup.js';
-import PopupWithImage from '../components/PopupWithImage.js';
-import PopupWithForm from '../components/PopupWithForm.js';
+import { PopupWithImage } from '../components/PopupWithImage.js';
+import { PopupWithForm } from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
 import FormValidator from '../components/FormValidator.js';
 
@@ -28,25 +30,20 @@ import FormValidator from '../components/FormValidator.js';
 
 Promise.all([api.getDataProfile(), api.getDataCards()])
     .then(([dataProfile, cards]) => {
-        const userInfo = new UserInfo({
-            nameSelector: '.profile__name-first',
-            aboutSelector: '.profile__specialization',
-            avatarSelector: '.profile__photo',
-            idSelector: '.profile',
-        });
-        userInfo.firstRenderUserInfo(
+        userInstance.firstRenderUserInfo(
             dataProfile.name,
             dataProfile.about,
             dataProfile.avatar,
             dataProfile._id
-        );
+        )
+        idProfile.id = dataProfile._id
         const defaultCardList = new Section({
             items: cards.reverse(), renderer: (item) => {
                 const card = new Card({
                     data: item, handleCardClick: () => {
-                        const popUpImg = new PopupWithImage({ data: item }, popupBrowseImg);
-                        popUpImg.openPopUp();
+                        const popUpImg = new PopupWithImage({ data: item }, popupBrowseImg)
                         popUpImg.setEventListeners();
+                        popUpImg.openPopUp();
                     }
                 }, '#element-template');
                 const cardElement = card.createCards();
@@ -97,6 +94,7 @@ btnOpenAddCardPopup.addEventListener('click', () => {
     form.openPopUp()
 })
 
+//Валидация формы добавления карточки
 
 const addCardValidator = new FormValidator(
     validationConfig,
@@ -137,8 +135,11 @@ const userEditForm = new PopupWithForm({
                 btnSaveChangeProfile.value = 'Сохранить'
             })
     }
-}, '#popup-profile')
-userEditForm.setEventListeners()
+}, popupChangeProfile);
+
+userEditForm.setEventListeners();
+
+//Валидация формы редактирования профиля
 
 const editProfilValidator = new FormValidator(
     validationConfig,
@@ -181,7 +182,8 @@ const userEditAvatarForm = new PopupWithForm(
                     btnSaveAvatar.value = 'Сохранить'
                 })
         }
-    }, '#popup-changeAvatar')
+    }, popUpChahgeAvatar)
+
 userEditAvatarForm.setEventListeners()
 
 const changeAvatarValidation = new FormValidator(
@@ -193,5 +195,3 @@ changeAvatarValidation.enableValidation()
 iconOpenPopupAvatar.addEventListener('click', function () {
     userEditAvatarForm.openPopUp()
 })
-
-//____________________________________________________________________________________
