@@ -51,7 +51,7 @@ export const specializForm = document.querySelector('.profile__specialization')
 export const formProfileEdit = popupChangeProfile.querySelector('.form')
 export const nameInput = formProfileEdit.querySelector('#name-input')
 export const jobInput = formProfileEdit.querySelector('#specialization-input')
-export const idProfile = document.querySelector('.profile');
+export const idProfile = document.querySelector('.profile')
 
 //Переменные для редактирования карточки
 export const formCard = popupAddCard.querySelector('.form')

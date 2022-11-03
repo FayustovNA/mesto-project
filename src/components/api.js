@@ -67,6 +67,7 @@ class Api {
   }
 
   addOneCardLike = (id) => {
+    console.log(id)
     return fetch(`${this.baseUrl}/cards/likes/${id}`, {
       method: 'PUT',
       headers: this.headers,
