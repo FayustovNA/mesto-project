@@ -51,7 +51,7 @@ export const specializForm = document.querySelector('.profile__specialization')
 export const formProfileEdit = popupChangeProfile.querySelector('.form')
 export const nameInput = formProfileEdit.querySelector('#name-input')
 export const jobInput = formProfileEdit.querySelector('#specialization-input')
-//export const idProfile = document.querySelector('.profile');
+export const idProfile = document.querySelector('.profile');
 
 //Переменные для редактирования карточки
 export const formCard = popupAddCard.querySelector('.form')
@@ -63,3 +63,13 @@ export const title = popupAddCard.querySelector('#name-input')
 export const photoAvatar = document.querySelector('.profile__photo')
 export const formAvatarChange = popUpChahgeAvatar.querySelector('.form')
 export const urlLinkAvatar = popUpChahgeAvatar.querySelector('#url-input')
+
+// Константы для валидации форм
+export const validationConfig = {
+  formSelector: '.form',
+  inputSelector: '.form__input',
+  submitButtonSelector: '.form__submit',
+  inactiveButtonClass: 'popup__button-save_inactive',
+  //inputErrorClass: 'popup__item_type_error',
+  errorClass: 'form__input-error_active'
+}
