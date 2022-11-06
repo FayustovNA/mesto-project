@@ -6,12 +6,12 @@ export default class Popup {
 
     openPopUp() {
         //Закрытие popUp по нажатию Esc
-        window.addEventListener('keydown', (evt) => { this._handleEscClose(evt) });
+        window.addEventListener('keydown', this._handleEscClose);
         this._popup.classList.add('popup_opened')
     }
 
     closePopUp() {
-        window.removeEventListener('keydown', (evt) => { this._handleEscClose(evt) });
+        window.removeEventListener('keydown', this._handleEscClose);
         this._popup.classList.remove('popup_opened')
     }
 
