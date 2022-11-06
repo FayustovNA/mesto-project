@@ -5,6 +5,14 @@ export default class Section {
         this._renderer = renderer;
         this._container = containerSelector;
     }
+    setRenderFunc = (renderer) => {
+        this._renderer = renderer
+        return this
+    }
+    setItems = (items) => {
+        this._renderedItems = items
+        return this
+    }
     addItem(element) {
         this._container.append(element);
     }

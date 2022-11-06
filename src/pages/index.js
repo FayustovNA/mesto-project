@@ -26,8 +26,21 @@ import FormValidator from '../components/FormValidator.js';
 
 //____________________________________________________________________________________
 
-//Рендер карточек и данных профиля
+//Экземпляр класса пользователя 
+const userInstance = new UserInfo({
+    nameSelector: '.profile__name-first',
+    aboutSelector: '.profile__specialization',
+    avatarSelector: '.profile__photo',
+})
 
+//Экземпляр класса просмотра изображения
+const popUpImg = new PopupWithImage(popupBrowseImg)
+popUpImg.setEventListeners();
+
+//Экземпляр класса секции
+const defaultCardList = new Section({}, elementsContainer)
+
+//Рендер карточек и данных профиля
 Promise.all([api.getDataProfile(), api.getDataCards()])
     .then(([dataProfile, cards]) => {
         userInstance.firstRenderUserInfo(
@@ -37,20 +50,20 @@ Promise.all([api.getDataProfile(), api.getDataCards()])
             dataProfile._id
         )
         idProfile.id = dataProfile._id
-        const defaultCardList = new Section({
-            items: cards.reverse(), renderer: (item) => {
-                const card = new Card({
-                    data: item, handleCardClick: () => {
-                        const popUpImg = new PopupWithImage({ data: item }, popupBrowseImg)
-                        popUpImg.setEventListeners();
-                        popUpImg.openPopUp();
-                    }
-                }, '#element-template');
-                const cardElement = card.createCards();
-                defaultCardList.addItem(cardElement);
-            }
-        }, elementsContainer);
-        defaultCardList.renderItems();
+        defaultCardList.setItems(cards).setRenderFunc((item) => {
+            const card = new Card(
+                {
+                    data: item,
+                    handleCardClick: () => {
+                        popUpImg.openPopUp(item.name, item.link)
+                    },
+                },
+                '#element-template'
+            )
+            const cardElement = card.createCards()
+            defaultCardList.addItem(cardElement)
+        })
+        defaultCardList.renderItems()
     })
     .catch((error) => {
         console.log(error.message)
@@ -59,39 +72,37 @@ Promise.all([api.getDataProfile(), api.getDataCards()])
 
 //Работа с попапом добавления карточки 
 
-btnOpenAddCardPopup.addEventListener('click', () => {
-    const form = new PopupWithForm({
-        handleFormSubmit: (formData) => {
-            btnSaveAddCards.value = 'Создание...'
-            api
-                .saveNewCards(formData['name-input'], formData['url-input'])
-                .then((data) => {
-                    const newCard = new Card(
-                        {
-                            data,
-                            handleCardClick: () => {
-                                const popupImg = new PopupWithImage(item, '#popup-browse')
-                                popupImg.setEventListeners()
-                                popupImg.openPopUp()
-                            },
+const cardAddForm = new PopupWithForm({
+    handleFormSubmit: (formData) => {
+        btnSaveAddCards.value = 'Создание...'
+        api
+            .saveNewCards(formData['name-input'], formData['url-input'])
+            .then((data) => {
+                const newCard = new Card(
+                    {
+                        data,
+                        handleCardClick: () => {
+                            popUpImg.openPopUp(data.name, data.link)
                         },
-                        '#element-template'
-                    )
-                    const cardElement = newCard.createCards()
-                    document
-                        .querySelector('.elements')
-                        .insertAdjacentElement('afterbegin', cardElement)
-                })
-                .catch((error) => {
-                    console.error('Error', error)
-                })
-                .finally(() => {
-                    btnSaveAddCards.value = 'Создать'
-                })
-        }
-    }, popupAddCard);
-    form.setEventListeners()
-    form.openPopUp()
+                    },
+                    '#element-template'
+                )
+                const cardElement = newCard.createCards()
+                defaultCardList.addItem(cardElement);
+            })
+            .catch((error) => {
+                console.error('Error', error)
+            })
+            .finally(() => {
+                btnSaveAddCards.value = 'Создать'
+            })
+    }
+}, popupAddCard);
+
+cardAddForm.setEventListeners()
+
+btnOpenAddCardPopup.addEventListener('click', () => {
+    cardAddForm.openPopUp()
 })
 
 //Валидация формы добавления карточки
@@ -113,11 +124,6 @@ popDeleteCard.setEventListeners();
 //____________________________________________________________________________________
 
 //Работа с попапом редактирования данных профиля
-const userInstance = new UserInfo({
-    nameSelector: '.profile__name-first',
-    aboutSelector: '.profile__specialization',
-    avatarSelector: '.profile__photo',
-})
 
 const userEditForm = new PopupWithForm({
     handleFormSubmit: (formData) => {
