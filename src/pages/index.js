@@ -82,7 +82,7 @@ const cardAddForm = new PopupWithForm({
                     {
                         data,
                         handleCardClick: () => {
-                            popupImg.openPopUp(data.name, data.link)
+                            popUpImg.openPopUp(data.name, data.link)
                         },
                     },
                     '#element-template'
