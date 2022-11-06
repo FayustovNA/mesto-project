@@ -23,13 +23,9 @@ export const btnOpenAddCardPopup = document.querySelector(
 export const iconOpenPopupAvatar = document.querySelector('.profile__avatar')
 
 //Кнопка сохранения / изменения профиля и сохранения / добавления / подтверждения работы с карточками
-export const btnSaveChangeProfile = document.querySelector(
-  '#btnSaveChangeProfile'
-)
+export const btnSaveChangeProfile = document.querySelector('#btnSaveChangeProfile')
 export const btnSaveAddCards = document.querySelector('#btnSaveAddCard')
-export const btnConfirmDeleteCard = document.querySelector(
-  '#btnConfirmDeleteCard'
-)
+export const btnConfirmDeleteCard = document.querySelector('#btnConfirmDeleteCard')
 export const btnSaveAvatar = document.querySelector('#btnConfirmChangeAvatar')
 
 //Попапы + все оверлеи
@@ -37,8 +33,7 @@ export const popupChangeProfile = document.querySelector('#popup-profile')
 export const popupAddCard = document.querySelector('#popup-card')
 export const popUpChahgeAvatar = document.querySelector('#popup-changeAvatar')
 export const popupBrowseImg = document.querySelector('#popup-browse')
-export const popupConfirmDeleteCard =
-  document.querySelector('#popup-deleteCards')
+export const popupConfirmDeleteCard = document.querySelector('#popup-deleteCards')
 export const allOverlays = document.querySelectorAll('.popup__overlay')
 
 //Просматриваемая картинка карточки и ее название при открытии попапа просмотра
