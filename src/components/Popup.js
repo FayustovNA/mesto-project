@@ -4,10 +4,13 @@ export default class Popup {
     }
 
     openPopUp() {
+        //Закрытие popUp по нажатию Esc
+        window.addEventListener('keydown', (evt) => { this._handleEscClose(evt) });
         this._popup.classList.add('popup_opened')
     }
 
     closePopUp() {
+        window.removeEventListener('keydown', (evt) => { this._handleEscClose(evt) });
         this._popup.classList.remove('popup_opened')
     }
 
@@ -26,8 +29,6 @@ export default class Popup {
         this._popup.querySelector('.popup__button-close').addEventListener('click', () => {
             this.closePopUp()
         })
-        //Закрытие popUp по нажатию Esc
-        window.addEventListener('keydown', (evt) => { this._handleEscClose(evt) });
     };
 }
 
